@@ -1,0 +1,116 @@
+<header class="sidebar" [ngClass]="{ expanded: isExpanded }">
+  <div class="header">
+    <h1 class="hidden">Trak Resolve</h1>
+    <img src="../../../assets/images/logo_small.jpg" alt="Trak Resolve logo" />
+  </div>
+  <ul class="content">
+    <li class="link">
+      <div
+        class="content"
+        [routerLink]="['/profile']"
+        [routerLinkActive]="'active'"
+      >
+        <div class="icon">
+          <img
+            src="../../../assets/images/profile.png"
+            alt="Profile icon by Freepik flaticon.com"
+          />
+        </div>
+        <div class="title">Profile</div>
+      </div>
+    </li>
+    <li class="link">
+      <div
+        class="content"
+        [routerLink]="['/home']"
+        [routerLinkActive]="'active'"
+      >
+        <div class="icon">
+          <img
+            src="../../../assets/images/home.png"
+            alt="Home icon by Freepik flaticon.com"
+          />
+        </div>
+        <div class="title">Home</div>
+      </div>
+    </li>
+    <li class="link">
+      <div
+        class="content"
+        [routerLink]="['/search']"
+        [routerLinkActive]="'active'"
+      >
+        <div class="icon">
+          <img
+            src="../../../assets/images/search.png"
+            alt="Search icon by Freepik flaticon.com"
+          />
+        </div>
+        <div class="title">Search</div>
+      </div>
+    </li>
+    <li class="link">
+      <div
+        class="content"
+        [routerLink]="['/reportBug']"
+        [routerLinkActive]="'active'"
+      >
+        <div class="icon">
+          <img
+            src="../../../assets/images/bug.png"
+            alt="Bug icon by Freepik flaticon.com"
+          />
+        </div>
+        <div class="title">Report Bug</div>
+      </div>
+    </li>
+    <li class="link">
+      <div
+        class="content"
+        [routerLink]="['/messages']"
+        [routerLinkActive]="'active'"
+      >
+        <div class="icon">
+          <img
+            src="../../../assets/images/messages.png"
+            alt="Messages icon by Freepik flaticon.com"
+          />
+        </div>
+        <div class="title">Messages</div>
+      </div>
+    </li>
+    <li class="link">
+      <div
+        class="content"
+        [routerLink]="['/settings']"
+        [routerLinkActive]="'active'"
+      >
+        <div class="icon">
+          <img
+            src="../../../assets/images/settings.png"
+            alt="Settings icon by Freepik flaticon.com"
+          />
+        </div>
+        <div class="title">Settings</div>
+      </div>
+    </li>
+    <li class="link">
+      <div
+        class="content"
+        [routerLink]="['/statistics']"
+        [routerLinkActive]="'active'"
+      >
+        <div class="icon">
+          <img
+            src="../../../assets/images/statistics.png"
+            alt="Statistics icon by Freepik flaticon.com"
+          />
+        </div>
+        <div class="title">Statistics</div>
+      </div>
+    </li>
+    <li class="toggle" (click)="handleSidebarToggle()">
+      <span class="chevron"></span>
+    </li>
+  </ul>
+</header>

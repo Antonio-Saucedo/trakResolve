@@ -1,0 +1,126 @@
+.chevron::before {
+  border-style: solid;
+  border-width: 0.15em 0.15em 0 0;
+  content: "";
+  display: inline-block;
+  height: 0.35em;
+  position: relative;
+  top: 0.3em;
+  vertical-align: top;
+  width: 0.35em;
+}
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  height: 100vh;
+  transition: 0.3s;
+
+  width: 62px;
+  &.expanded {
+    width: 150px;
+
+    .chevron {
+      &::before {
+        transform: rotate(-135deg);
+      }
+    }
+    ul {
+      .link {
+        .content {
+          .title {
+            max-width: 100px;
+          }
+        }
+      }
+    }
+  }
+
+  background: #0900b3;
+  color: #fff;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+
+    h1 {
+      font-size: 20px;
+      color: #fff;
+      margin: 0;
+      flex: 1;
+      transition: 0.3s;
+
+      margin-left: -100px;
+    }
+  }
+
+  .chevron {
+    background: #ababab;
+    color: #0900b3;
+    cursor: pointer;
+    transition: 0.3s;
+
+    padding: 10px;
+    min-width: 20px;
+    height: 20px;
+    display: block;
+    text-align: center;
+
+    &::before {
+      transition: 0.3s;
+      transform: rotate(45deg);
+    }
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin-block: 0;
+    padding-inline: 0;
+    .link {
+      list-style: none;
+      .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        &:hover {
+          background: #ababab;
+          .title {
+            color: #fff;
+          }
+          svg {
+            fill: #fff;
+          }
+        }
+
+        &.active {
+          background: #ababab;
+          .title {
+            color: #fff;
+          }
+        }
+        .title {
+          flex: 1;
+          // display: none;
+          padding-left: 10px;
+          color: #fff;
+          transition: 0.3s;
+          max-width: 0px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
