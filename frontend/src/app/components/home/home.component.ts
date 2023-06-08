@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { BugService } from 'src/app/services/bug.service';
-import { Bug } from 'src/app/shared/bug';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { Bug } from 'src/app/shared/models/bug';
 
 @Component({
   selector: 'app-home',
@@ -16,16 +14,7 @@ export class HomeComponent {
   handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
 
   bugs: Bug[] = [];
-  constructor(private bugService: BugService, activatedRoute: ActivatedRoute) {
-    activatedRoute.params.subscribe((params) => {
-      if (params.searchTerm) {
-        this.bugs = this.bugService.getAllBugsBySearchTerms(
-          params.searchType,
-          params.searchTerm
-        );
-      } else {
-        this.bugs = bugService.getAll();
-      }
-    });
+  constructor(bugService: BugService) {
+    this.bugs = bugService.getAll();
   }
 }

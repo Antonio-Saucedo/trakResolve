@@ -5,7 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  sidebarExpanded = true;
-  title = 'Trak Resolve';
-}
+export class AppComponent { }

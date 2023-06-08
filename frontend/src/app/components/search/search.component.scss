@@ -1,0 +1,39 @@
+.search {
+  margin: auto 20px auto 80px;
+  height: 100%;
+
+  transition: 0.3s;
+
+  &.expanded {
+    margin-left: 170px;
+  }
+
+  form,
+  .container {
+    padding: 10px 0;
+  }
+
+  select,
+  input {
+    margin-right: 10px;
+  }
+
+  .content {
+    padding: 10px;
+  }
+  .content:first-child{
+    margin-bottom: 10px;
+  }
+
+  .red {
+    border: 5px solid red;
+  }
+
+  .green {
+    border: 5px solid green;
+  }
+
+  a {
+    color: black;
+  }
+}

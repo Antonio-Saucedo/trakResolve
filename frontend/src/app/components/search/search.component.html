@@ -1,1 +1,51 @@
-<p>search works!</p>
+<app-sidebar [isExpanded]="isExpanded" (toggleSidebar)="isExpanded = !isExpanded"></app-sidebar>
+<main class="search" [ngClass]="{ expanded: isExpanded }">
+  <div class="container">
+    <h2>Search</h2>
+    <form>
+      <label for="searchType">Search for: </label>
+      <select #t name="searchType" id="searchType">
+        <option value="_id">_id</option>
+        <option value="summary">summary</option>
+        <option value="link">link</option>
+        <option value="description">description</option>
+        <option value="resolved">resolved</option>
+      </select>
+      <input
+        #s
+        type="text"
+        placeholder="Search bug reports."
+        (keyup.enter)="search(t.value, s.value)"
+        [value]="searchTerm"
+      />
+      <button (click)="search(t.value, s.value)">Search</button>
+    </form>
+    <ul>
+      <li *ngFor="let bug of bugs">
+        <a routerLink="/bug/{{ bug._id }}">
+          <div class="content {{ bug.resolved ? 'green' : 'red' }}">
+            <div class="summary">
+              {{ bug.summary }}
+            </div>
+            <div class="link">
+              {{ bug.link }}
+            </div>
+            <div class="description">
+              {{ bug.description }}
+            </div>
+            <img [src]="bug.imageUrl" alt="Bug report id {{ bug._id }}" />
+            <div class="reproductionFindings">
+              {{ bug.reproductionFindings }}
+            </div>
+            <div class="developmentFindings">
+              {{ bug.developmentFindings }}
+            </div>
+            <div class="message">
+              {{ bug.message }}
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</main>

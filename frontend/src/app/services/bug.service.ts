@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Bug } from '../shared/bug';
+import { Bug } from '../shared/models/bug';
 import { sample_bugs } from 'src/data';
 
 @Injectable({
@@ -13,14 +13,27 @@ export class BugService {
   }
 
   getAllBugsBySearchTerms(searchType: string, searchTerm: string) {
-    const valid = ['_id', 'summary', 'link', 'description'];
-    if (searchType in valid) {
-      console.log('filtered');
+    if (searchType == '_id') {
+      return this.getAll().filter(
+        (bug) => bug._id == Number(searchTerm)
+      );
+    } else if (searchType == 'summary') {
       return this.getAll().filter((bug) =>
-        bug.searchType.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+        bug.summary.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else if (searchType == 'link') {
+      return this.getAll().filter((bug) =>
+        bug.link.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else if (searchType == 'description') {
+      return this.getAll().filter((bug) =>
+        bug.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else if (searchType == 'resolved') {
+      return this.getAll().filter((bug) =>
+        bug.resolved == (searchTerm.toLowerCase() =="true")
       );
     } else {
-      console.log('Notfiltered');
       return this.getAll();
     }
   }
