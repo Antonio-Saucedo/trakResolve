@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   sidebarExpanded = true;
-  title = 'frontend';
+  title = 'Trak Resolve';
 }

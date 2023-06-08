@@ -1,0 +1,32 @@
+<main class="main" [ngClass]="{ expanded: isExpanded }">
+  <div class="container">
+    <h2>Home</h2>
+    <ul>
+      <li *ngFor="let bug of bugs">
+        <a routerLink="/bug/{{ bug._id }}">
+          <div class="content {{bug.resolved?'green':'red'}}">
+            <div class="summary">
+              {{ bug.summary }}
+            </div>
+            <div class="link">
+              {{ bug.link }}
+            </div>
+            <div class="description">
+              {{ bug.description }}
+            </div>
+            <img [src]="bug.imageUrl" alt="Bug report id {{ bug._id }}" />
+            <div class="reproductionFindings">
+              {{ bug.reproductionFindings }}
+            </div>
+            <div class="developmentFindings">
+              {{ bug.developmentFindings }}
+            </div>
+            <div class="message">
+              {{ bug.message }}
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</main>
