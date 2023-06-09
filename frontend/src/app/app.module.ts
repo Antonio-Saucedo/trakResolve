@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
+import { ReportBugComponent } from './components/report-bug/report-bug.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     HomeComponent,
-    SearchComponent
+    SearchComponent,
+    ReportBugComponent
   ],
   imports: [
     BrowserModule,

@@ -1,33 +1,22 @@
-<app-sidebar [isExpanded]="isExpanded" (toggleSidebar)="isExpanded = !isExpanded"></app-sidebar>
+<app-sidebar
+  [isExpanded]="isExpanded"
+  (toggleSidebar)="isExpanded = !isExpanded"
+></app-sidebar>
 <main class="main" [ngClass]="{ expanded: isExpanded }">
-  <div class="container">
-    <h2>Home</h2>
-    <ul>
-      <li *ngFor="let bug of bugs">
-        <a routerLink="/bug/{{ bug._id }}">
-          <div class="content {{bug.resolved?'green':'red'}}">
-            <div class="summary">
-              {{ bug.summary }}
-            </div>
-            <div class="link">
-              {{ bug.link }}
-            </div>
-            <div class="description">
-              {{ bug.description }}
-            </div>
-            <img [src]="bug.imageUrl" alt="Bug report id {{ bug._id }}" />
-            <div class="reproductionFindings">
-              {{ bug.reproductionFindings }}
-            </div>
-            <div class="developmentFindings">
-              {{ bug.developmentFindings }}
-            </div>
-            <div class="message">
-              {{ bug.message }}
-            </div>
-          </div>
-        </a>
-      </li>
-    </ul>
-  </div>
+  <form>
+    <fieldset>
+      <h2>Home</h2>
+      <p>Login below.</p>
+      <label for="userName"
+        >Username: <input #u type="text" id="userName"
+      /></label>
+      <!-- <input #u type="text" [value]="userName"/> -->
+      <label for="password"
+        >Password: <input #p type="text" id="password"
+      /></label>
+      <!-- <input #p type="text" [value]="password"/> -->
+      <button>Login</button>
+      <button>Create an account</button>
+    </fieldset>
+  </form>
 </main>

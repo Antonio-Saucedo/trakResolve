@@ -1,0 +1,33 @@
+<app-sidebar
+  [isExpanded]="isExpanded"
+  (toggleSidebar)="isExpanded = !isExpanded"
+></app-sidebar>
+<main class="main" [ngClass]="{ expanded: isExpanded }">
+  <form>
+    <fieldset>
+      <h2 class="hidden">Report Bug</h2>
+      <div>
+        <button>Create ticket</button>
+        <button>Ticket lookup</button>
+      </div>
+      <label for="summary">Summary<input #s type="text" id="summary" /></label>
+      <!-- <input #u type="text" [value]="userName"/> -->
+      <label for="link">URL link<input #l type="text" id="link" /></label>
+      <label for="description"
+        >Description
+        <textarea
+          #d
+          placeholder="Description of bug"
+          name="description"
+          cols="30"
+          rows="10"
+        ></textarea>
+      </label>
+      <!-- <input #p type="text" [value]="password"/> -->
+      <div>
+        <button>Create & new ticket</button>
+        <button>Create ticket</button>
+      </div>
+    </fieldset>
+  </form>
+</main>

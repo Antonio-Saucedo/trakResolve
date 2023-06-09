@@ -20,21 +20,35 @@
     border: 5px solid #0900b3;
 
     label,
-    button {
+    textarea {
       display: block;
     }
 
+    label {
+      text-align: left;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    div {
+      display: flex;
+    }
+
+    div:nth-child(-n+2) {
+      justify-content: space-between;
+    }
+
+    div:last-child {
+      justify-content: end;
+    }
+
     button {
+      margin: 10px;
       padding: 5px 10px;
-
-      &:nth-child(odd) {
-        margin: auto;
-      }
-
-      &:nth-child(even) {
-        position: absolute;
-        bottom: 30px;
-      }
     }
   }
 }

@@ -3,7 +3,7 @@
   <div class="container">
     <h2>Search</h2>
     <form>
-      <label for="searchType">Search for: </label>
+      <label for="searchType">Search by: </label>
       <select #t name="searchType" id="searchType">
         <option value="_id">_id</option>
         <option value="summary">summary</option>
@@ -11,9 +11,11 @@
         <option value="description">description</option>
         <option value="resolved">resolved</option>
       </select>
+      <label for="searchTerm">Search word: </label>
       <input
         #s
         type="text"
+        id="searchTerm"
         placeholder="Search bug reports."
         (keyup.enter)="search(t.value, s.value)"
         [value]="searchTerm"
