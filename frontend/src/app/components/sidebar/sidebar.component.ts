@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,4 +11,6 @@ export class SidebarComponent {
   @Output() toggleSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
+
+  constructor(public router: Router) { }
 }

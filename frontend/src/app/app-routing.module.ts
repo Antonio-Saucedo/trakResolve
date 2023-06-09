@@ -6,6 +6,7 @@ import { ReportBugComponent } from './components/report-bug/report-bug.component
 
 const routes: Routes = [
   {path:'', component:HomeComponent},
+  {path:'home', component:HomeComponent},
   {path:'search', component:SearchComponent},
   {path:'search/:searchType/:searchTerm', component:SearchComponent},
   {path:'reportBug', component:ReportBugComponent}

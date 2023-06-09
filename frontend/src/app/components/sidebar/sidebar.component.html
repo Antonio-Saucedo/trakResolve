@@ -21,8 +21,23 @@
     </li>
     <li class="link">
       <div
+        *ngIf="router.url == '/'"
         class="content"
         [routerLink]="['/']"
+        [routerLinkActive]="'active'"
+      >
+        <div class="icon">
+          <img
+            src="../../../assets/images/home.png"
+            alt="Home icon by Freepik flaticon.com"
+          />
+        </div>
+        <div class="title">Home</div>
+      </div>
+      <div
+        *ngIf="router.url != '/'"
+        class="content"
+        [routerLink]="['/home']"
         [routerLinkActive]="'active'"
       >
         <div class="icon">
