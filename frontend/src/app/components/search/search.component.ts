@@ -9,7 +9,7 @@ import { Bug } from 'src/app/shared/models/bug';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent {
-  searchType = '';
+  searchType = '_id';
   searchTerm = '';
 
   @Input() isExpanded: boolean = false;
@@ -25,7 +25,11 @@ export class SearchComponent {
     private router: Router
   ) {
     activatedRoute.params.subscribe((params) => {
+      if (params.searchType) {
+        this.searchType = params.searchType;
+      }
       if (params.searchTerm) {
+        this.searchTerm = params.searchTerm;
         this.bugs = this.bugService.getAllBugsBySearchTerms(
           params.searchType,
           params.searchTerm
@@ -38,6 +42,8 @@ export class SearchComponent {
 
   search(type: string, term: string): void {
     if (term) {
+      this.searchType = type;
+      this.searchTerm = term;
       this.router.navigateByUrl('/search/' + type + '/' + term);
     }
   }

@@ -14,9 +14,7 @@ export class BugService {
 
   getAllBugsBySearchTerms(searchType: string, searchTerm: string) {
     if (searchType == '_id') {
-      return this.getAll().filter(
-        (bug) => bug._id == Number(searchTerm)
-      );
+      return this.getAll().filter((bug) => bug._id == Number(searchTerm));
     } else if (searchType == 'summary') {
       return this.getAll().filter((bug) =>
         bug.summary.toLowerCase().includes(searchTerm.toLowerCase())
@@ -30,8 +28,12 @@ export class BugService {
         bug.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
     } else if (searchType == 'resolved') {
+      return this.getAll().filter(
+        (bug) => bug.resolved == (searchTerm.toLowerCase() == 'true')
+      );
+    } else if (searchType == 'tag') {
       return this.getAll().filter((bug) =>
-        bug.resolved == (searchTerm.toLowerCase() =="true")
+        bug.tags.includes(searchTerm.toLowerCase())
       );
     } else {
       return this.getAll();

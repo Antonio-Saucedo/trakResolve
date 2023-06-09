@@ -4,12 +4,13 @@
     <h2>Search</h2>
     <form>
       <label for="searchType">Search by: </label>
-      <select #t name="searchType" id="searchType">
+      <select #t name="searchType" id="searchType" [value]="searchType">
         <option value="_id">_id</option>
         <option value="summary">summary</option>
         <option value="link">link</option>
         <option value="description">description</option>
         <option value="resolved">resolved</option>
+        <option value="tag">tag</option>
       </select>
       <label for="searchTerm">Search word: </label>
       <input

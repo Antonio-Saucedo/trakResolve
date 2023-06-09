@@ -8,4 +8,5 @@ export class Bug {
   developmentFindings!: string;
   message!: string;
   resolved!: boolean;
+  tags!: string[];
 }
