@@ -7,6 +7,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { ReportBugComponent } from './components/report-bug/report-bug.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ReportBugComponent } from './components/report-bug/report-bug.component
     SidebarComponent,
     HomeComponent,
     SearchComponent,
-    ReportBugComponent
+    ReportBugComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

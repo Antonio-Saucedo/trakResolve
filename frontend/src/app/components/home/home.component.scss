@@ -14,9 +14,9 @@
   }
 
   fieldset {
-    height: 97.5vh;
+    height: 95.5vh;
     text-align: center;
-    margin: 10px auto;
+    margin: 20px auto;
     border: 5px solid #0900b3;
 
     label,
@@ -27,13 +27,13 @@
     button {
       padding: 5px 10px;
 
-      &:nth-child(odd) {
+      &:nth-child(even) {
         margin: auto;
       }
 
-      &:nth-child(even) {
+      &:nth-child(odd) {
         position: absolute;
-        bottom: 30px;
+        bottom: 35px;
       }
     }
   }

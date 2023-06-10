@@ -1,0 +1,254 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Trak Resolve Info API",
+    "description": "Trak Resolve Info API",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5200",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "bugs",
+      "description": "Get bug report information from Trak Resolve."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/bugs": {
+      "get": {
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "example": "any"
+                },
+                "link": {
+                  "example": "any"
+                },
+                "imageUrl": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "reproductionFindings": {
+                  "example": "any"
+                },
+                "developmentFindings": {
+                  "example": "any"
+                },
+                "message": {
+                  "example": "any"
+                },
+                "resolved": {
+                  "example": "any"
+                },
+                "tags": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/bugs/{id}": {
+      "get": {
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "summary": {
+                  "example": "any"
+                },
+                "link": {
+                  "example": "any"
+                },
+                "imageUrl": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "reproductionFindings": {
+                  "example": "any"
+                },
+                "developmentFindings": {
+                  "example": "any"
+                },
+                "message": {
+                  "example": "any"
+                },
+                "resolved": {
+                  "example": "any"
+                },
+                "tags": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "bugs": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "reproductionFindings": {
+            "type": "string"
+          },
+          "developmentFindings": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "resolved": {
+            "type": "boolean"
+          },
+          "tags": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

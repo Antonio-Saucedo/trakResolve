@@ -1,6 +1,4 @@
-import { Bug } from './app/shared/models/bug';
-
-export const sample_bugs: Bug[] = [
+export const sample_bugs: any[] = [
   {
     _id: 1,
     summary: 'Something does not display correctly.',
