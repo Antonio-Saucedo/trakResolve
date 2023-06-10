@@ -19,7 +19,9 @@
   "paths": {
     "/bugs": {
       "get": {
-        "description": "",
+        "tags": ["bugs"],
+        "summary": "Request Trak resolve bug reports",
+        "description": "A request for Trak Resolve users to see bug report information.",
         "produces": [
           "application/json"
         ],
@@ -37,7 +39,9 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": ["bugs"],
+        "summary": "Add Trak resolve bug reports.",
+        "description": "A request for Trak Resolve users to add bug reports.",
         "parameters": [
           {
             "name": "body",
@@ -97,7 +101,9 @@
     },
     "/bugs/{id}": {
       "get": {
-        "description": "",
+        "tags": ["bugs"],
+        "summary": "request Trak resolve bug report information by ID.",
+        "description": "A request for Trak Resolve users to see bug report information.",
         "produces": [
           "application/json"
         ],
@@ -125,7 +131,9 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": ["bugs"],
+        "summary": "Update Trak resolve bug reports.",
+        "description": "A request for Trak Resolve Administrators to update bug reports.",
         "parameters": [
           {
             "name": "id",
@@ -189,7 +197,9 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["bugs"],
+        "summary": "Delete Trak resolve bug reports.",
+        "description": "A request for Trak Resolve Administrators to delete bug reports.",
         "parameters": [
           {
             "name": "id",

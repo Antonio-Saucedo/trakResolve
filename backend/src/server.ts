@@ -48,3 +48,5 @@ app.use('/', bugRouter);
       console.log(`Connected to DB and listening on ${process.env.PORT!}`);
     }
   });
+
+  module.exports = app;
