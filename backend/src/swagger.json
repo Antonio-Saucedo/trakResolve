@@ -17,7 +17,7 @@
     "https"
   ],
   "paths": {
-    "/v1/bugs": {
+    "/api/v1/bugs": {
       "get": {
         "tags": ["bugs"],
         "summary": "Request Trak resolve bug reports",
@@ -70,7 +70,7 @@
         }
       }
     },
-    "/v1/bugs/{searchType}/{searchTerm}": {
+    "/api/v1/bugs/{searchType}/{searchTerm}": {
       "get": {
         "tags": ["bugs"],
         "summary": "Request Trak resolve bug report information by search type.",
@@ -109,7 +109,7 @@
         }
       }
     },
-    "/v1/bugs/{id}": {
+    "/api/v1/bugs/{id}": {
       "put": {
         "tags": ["bugs"],
         "summary": "Update Trak resolve bug reports.",

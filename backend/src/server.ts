@@ -42,44 +42,6 @@ app.get("/", (req, res) => {
 app.use("/", swaggerRouter);
 app.use("/", bugRouter);
 
-app.get("/v1/bugs/search/:searchType/:searchTerm", (req, res) => {
-  const searchType = req.params.searchType;
-  const searchTerm = req.params.searchTerm;
-  if (searchType == "_id") {
-    res.send(sample_bugs.filter((bug) => bug._id == Number(searchTerm)));
-  } else if (searchType == "summary") {
-    res.send(
-      sample_bugs.filter((bug) =>
-        bug.summary.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  } else if (searchType == "link") {
-    res.send(
-      sample_bugs.filter((bug) =>
-        bug.link.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  } else if (searchType == "description") {
-    res.send(
-      sample_bugs.filter((bug) =>
-        bug.description.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-  } else if (searchType == "resolved") {
-    res.send(
-      sample_bugs.filter(
-        (bug) => bug.resolved == (searchTerm.toLowerCase() == "true")
-      )
-    );
-  } else if (searchType == "tag") {
-    res.send(
-      sample_bugs.filter((bug) => bug.tags.includes(searchTerm.toLowerCase()))
-    );
-  } else {
-    res.send(sample_bugs);
-  }
-});
-
 initDb((err: Error) => {
   if (err) {
     console.log(err);
