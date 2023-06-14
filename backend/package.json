@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devStart": "cd src && nodemon server.ts",
-    "start": "node server.ts",
+    "start": "cd src && ts-node server.ts",
     "swagger": "cd src && node ./swagger.mjs"
   },
   "author": "Antonio Saucedo",
