@@ -1,26 +1,28 @@
 import { Router } from "express";
 import {
   getAllBugReports,
-  getBugReportById,
   createBugReport,
   updateBugReportById,
   deleteBugReportById,
+  getBugReportBySearchTerm,
 } from "../controllers/bug.controller";
 const bugRouter = Router();
 
-// GET all bug reports
-bugRouter.get(`/v${process.env.VERSION}/bugs`, getAllBugReports);
+// Version must be updated when needed.
 
-// GET bug reports by id
-bugRouter.get(`/v${process.env.VERSION}/bugs/:id`, getBugReportById);
+// GET all bug reports
+bugRouter.get(`/v1/bugs`, getAllBugReports);
+
+// GET bug reports by search term
+bugRouter.get(`/v1/bugs/:searchType/:searchTerm`, getBugReportBySearchTerm);
 
 // POST/Create bug reports
-bugRouter.post(`/v${process.env.VERSION}/bugs`, createBugReport);
+bugRouter.post(`/v1/bugs`, createBugReport);
 
 // PUT/Update bug reports by id
-bugRouter.put(`/v${process.env.VERSION}/bugs/:id`, updateBugReportById);
+bugRouter.put(`/v1/bugs/:id`, updateBugReportById);
 
 // DELETE bug reports by id
-bugRouter.delete(`/v${process.env.VERSION}/bugs/:id`, deleteBugReportById);
+bugRouter.delete(`/v1/bugs/:id`, deleteBugReportById);
 
 export default bugRouter;

@@ -5,7 +5,7 @@
     "description": "Trak Resolve Info API",
     "version": "1.0.0"
   },
-  "host": "trakresolve.onrender.com",
+  "host": "https://trakresolve.onrender.com",
   "basePath": "/",
   "tags": [
     {
@@ -47,36 +47,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "summary": {
-                  "example": "any"
-                },
-                "link": {
-                  "example": "any"
-                },
-                "imageUrl": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                },
-                "reproductionFindings": {
-                  "example": "any"
-                },
-                "developmentFindings": {
-                  "example": "any"
-                },
-                "message": {
-                  "example": "any"
-                },
-                "resolved": {
-                  "example": "any"
-                },
-                "tags": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/components/schemas/bugs"
             }
           }
         ],
@@ -99,17 +70,24 @@
         }
       }
     },
-    "/v1/bugs/{id}": {
+    "/v1/bugs/{searchType}/{searchTerm}": {
       "get": {
         "tags": ["bugs"],
-        "summary": "request Trak resolve bug report information by ID.",
+        "summary": "Request Trak resolve bug report information by search type.",
         "description": "A request for Trak Resolve users to see bug report information.",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "searchType",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": ["_id", "summary", "link", "description", "resolved", "tag"]
+          },
+          {
+            "name": "searchTerm",
             "in": "path",
             "required": true,
             "type": "string"
@@ -129,7 +107,9 @@
             "description": "Internal Server Error"
           }
         }
-      },
+      }
+    },
+    "/v1/bugs/{id}": {
       "put": {
         "tags": ["bugs"],
         "summary": "Update Trak resolve bug reports.",
@@ -145,36 +125,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "summary": {
-                  "example": "any"
-                },
-                "link": {
-                  "example": "any"
-                },
-                "imageUrl": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                },
-                "reproductionFindings": {
-                  "example": "any"
-                },
-                "developmentFindings": {
-                  "example": "any"
-                },
-                "message": {
-                  "example": "any"
-                },
-                "resolved": {
-                  "example": "any"
-                },
-                "tags": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/components/schemas/bugs"
             }
           }
         ],
