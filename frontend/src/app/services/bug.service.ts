@@ -1,42 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Bug } from '../shared/models/bug';
 import { sample_bugs } from 'src/data';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { BUGS_BY_SEARCH_URL, BUGS_URL } from '../shared/constants/urls';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BugService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getAll(): Bug[] {
-    return sample_bugs;
+  getAll(): Observable<Bug[]> {
+    return this.http.get<Bug[]>(BUGS_URL);
   }
 
   getAllBugsBySearchTerms(searchType: string, searchTerm: string) {
-    if (searchType == '_id') {
-      return this.getAll().filter((bug) => bug._id == Number(searchTerm));
-    } else if (searchType == 'summary') {
-      return this.getAll().filter((bug) =>
-        bug.summary.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    } else if (searchType == 'link') {
-      return this.getAll().filter((bug) =>
-        bug.link.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    } else if (searchType == 'description') {
-      return this.getAll().filter((bug) =>
-        bug.description.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    } else if (searchType == 'resolved') {
-      return this.getAll().filter(
-        (bug) => bug.resolved == (searchTerm.toLowerCase() == 'true')
-      );
-    } else if (searchType == 'tag') {
-      return this.getAll().filter((bug) =>
-        bug.tags.includes(searchTerm.toLowerCase())
-      );
-    } else {
-      return this.getAll();
-    }
+    return this.http.get<Bug[]>(
+      BUGS_BY_SEARCH_URL + searchType + '/' + searchTerm
+    );
   }
 }

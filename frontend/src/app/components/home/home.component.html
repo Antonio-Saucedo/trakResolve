@@ -3,20 +3,19 @@
   (toggleSidebar)="isExpanded = !isExpanded"
 ></app-sidebar>
 <main class="main" [ngClass]="{ expanded: isExpanded }">
-  <form>
+  <form [formGroup]="loginForm" (ngSubmit)="submit()">
     <fieldset>
       <h2>Home</h2>
       <legend class="hidden">Report Bug</legend>
       <p>Login below.</p>
-      <label for="userName"
-        >Username: <input #u type="text" id="userName"
+      <label for="username"
+        >Username: <input formControlName="username" type="text" id="username"
       /></label>
-      <!-- <input #u type="text" [value]="userName"/> -->
       <label for="password"
-        >Password: <input #p type="text" id="password"
+        >Password: <input formControlName="password" placeholder="password" type="password" id="password"
       /></label>
       <!-- <input #p type="text" [value]="password"/> -->
-      <button>Login</button>
+      <button type="submit">Login</button>
       <button>Create an account</button>
     </fieldset>
   </form>

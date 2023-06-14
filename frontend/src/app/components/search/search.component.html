@@ -23,7 +23,7 @@
       />
       <button (click)="search(t.value, s.value)">Search</button>
     </form>
-    <app-not-found *ngIf="!bugs || bugs.length == 0"></app-not-found>
+    <app-not-found *ngIf="!bugs"></app-not-found>
     <ul>
       <li *ngFor="let bug of bugs">
         <a routerLink="/bug/{{ bug._id }}">

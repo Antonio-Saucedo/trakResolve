@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { BugService } from 'src/app/services/bug.service';
 import { Bug } from 'src/app/shared/models/bug';
 
@@ -24,19 +25,23 @@ export class SearchComponent {
     activatedRoute: ActivatedRoute,
     private router: Router
   ) {
+    let BugsObservable: Observable<Bug[]>;
     activatedRoute.params.subscribe((params) => {
       if (params.searchType) {
         this.searchType = params.searchType;
       }
       if (params.searchTerm) {
         this.searchTerm = params.searchTerm;
-        this.bugs = this.bugService.getAllBugsBySearchTerms(
+        BugsObservable = this.bugService.getAllBugsBySearchTerms(
           params.searchType,
           params.searchTerm
         );
       } else {
-        this.bugs = bugService.getAll();
+        BugsObservable = bugService.getAll();
       }
+      BugsObservable.subscribe((serverBugs) => {
+        this.bugs = serverBugs;
+      });
     });
   }
 
