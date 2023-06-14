@@ -30,7 +30,7 @@ const config = {
 
   // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
-  console.log(req.oidc.isAuthenticated());
+  // console.log(req.oidc.isAuthenticated());
   res.render('index', {
     title: 'Trak Resolve Info API',
     isAuthenticated: req.oidc.isAuthenticated()
