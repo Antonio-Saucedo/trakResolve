@@ -33,7 +33,8 @@ app.get('/', (req, res) => {
   // console.log(req.oidc.isAuthenticated());
   res.render('index', {
     title: 'Trak Resolve Info API',
-    isAuthenticated: req.oidc.isAuthenticated()
+    isAuthenticated: req.oidc.isAuthenticated(),
+    version: process.env.VERSION
   });
 });
 

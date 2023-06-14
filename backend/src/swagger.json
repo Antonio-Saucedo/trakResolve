@@ -17,7 +17,7 @@
     "https"
   ],
   "paths": {
-    "/bugs": {
+    "/v1/bugs": {
       "get": {
         "tags": ["bugs"],
         "summary": "Request Trak resolve bug reports",
@@ -99,7 +99,7 @@
         }
       }
     },
-    "/bugs/{id}": {
+    "/v1/bugs/{id}": {
       "get": {
         "tags": ["bugs"],
         "summary": "request Trak resolve bug report information by ID.",

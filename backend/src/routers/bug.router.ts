@@ -9,18 +9,18 @@ import {
 const bugRouter = Router();
 
 // GET all bug reports
-bugRouter.get("/bugs", getAllBugReports);
+bugRouter.get(`/v${process.env.VERSION}/bugs`, getAllBugReports);
 
 // GET bug reports by id
-bugRouter.get("/bugs/:id", getBugReportById);
+bugRouter.get(`/v${process.env.VERSION}/bugs/:id`, getBugReportById);
 
 // POST/Create bug reports
-bugRouter.post("/bugs", createBugReport);
+bugRouter.post(`/v${process.env.VERSION}/bugs`, createBugReport);
 
 // PUT/Update bug reports by id
-bugRouter.put("/bugs/:id", updateBugReportById);
+bugRouter.put(`/v${process.env.VERSION}/bugs/:id`, updateBugReportById);
 
 // DELETE bug reports by id
-bugRouter.delete("/bugs/:id", deleteBugReportById);
+bugRouter.delete(`/v${process.env.VERSION}/bugs/:id`, deleteBugReportById);
 
 export default bugRouter;
