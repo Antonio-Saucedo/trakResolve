@@ -1,12 +1,20 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from "express";
-require("dotenv").config();
 import { initDb } from "./configs/database.config";
 import bugRouter from "./routers/bug.router";
+import userRouter from "./routers/user.router";
 import swaggerRouter from "./routers/swagger.router";
 import { auth, requiresAuth } from "express-openid-connect";
-import { sample_bugs } from "./data";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors({
+  credentials:true,
+  origin:["http://localhost:4200"]
+}));
+
 const config = {
   authRequired: false,
   auth0Logout: true,
@@ -39,15 +47,16 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use("/", swaggerRouter);
-app.use("/", bugRouter);
+app.use(`/api/v${process.env.VERSION}`, swaggerRouter);
+app.use(`/api/v${process.env.VERSION}`, bugRouter);
+app.use(`/api/v${process.env.VERSION}`, userRouter);
 
 initDb((err: Error) => {
   if (err) {
     console.log(err);
   } else {
-    app.listen(process.env.PORT!);
-    console.log(`Connected to DB and listening on ${process.env.PORT!}`);
+    app.listen(process.env.PORT);
+    console.log(`Connected to DB and listening on ${process.env.PORT}`);
   }
 });
 

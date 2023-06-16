@@ -13,6 +13,10 @@ const doc = {
       name: "bugs",
       description: "Get bug report information from Trak Resolve.",
     },
+    {
+      name: "users",
+      description: "Get user profile information from Trak Resolve.",
+    },
   ],
   components: {
     schemas: {
@@ -48,12 +52,35 @@ const doc = {
           },
         },
       },
+      users: {
+        type: "object",
+        properties: {
+          firstName: {
+            type: "string",
+          },
+          lastName: {
+            type: "string",
+          },
+          email: {
+            type: "string",
+          },
+          phone: {
+            type: "number",
+          },
+          password: {
+            type: "string",
+          },
+          role: {
+            type: "string",
+          },
+        },
+      },
     },
   },
 };
 
 const outputFile = "./swagger.json";
-const endpointsFiles = ["./routers/bug.router.ts"];
+const endpointsFiles = ["./routers/bug.router.ts", "./routers/user.router.ts"];
 
 // generate swagger.json
 swaggerAutogen(outputFile, endpointsFiles, doc);

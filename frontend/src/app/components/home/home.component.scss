@@ -24,14 +24,18 @@
       display: block;
     }
 
+    .error-password {
+      margin-bottom: 10px;
+    }
+
     button {
       padding: 5px 10px;
 
-      &:nth-child(even) {
+      &.login {
         margin: auto;
       }
 
-      &:nth-child(odd) {
+      &.create {
         position: absolute;
         bottom: 35px;
       }

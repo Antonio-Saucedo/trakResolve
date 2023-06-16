@@ -3,7 +3,7 @@ import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "../swagger.json";
 
 const swaggerRouter = Router();
-swaggerRouter.use(`/api/v${process.env.VERSION}/api-docs`, swaggerUi.serve);
-swaggerRouter.get(`/api/v${process.env.VERSION}/api-docs`, swaggerUi.setup(swaggerDocument));
+swaggerRouter.use(`/api-docs`, swaggerUi.serve);
+swaggerRouter.get(`/api-docs`, swaggerUi.setup(swaggerDocument));
 
 export default swaggerRouter;

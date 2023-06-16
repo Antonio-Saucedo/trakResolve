@@ -8,21 +8,19 @@ import {
 } from "../controllers/bug.controller";
 const bugRouter = Router();
 
-// Version must be updated when needed.
-
 // GET all bug reports
-bugRouter.get(`/api/v1/bugs`, getAllBugReports);
+bugRouter.get("/bugs", getAllBugReports);
 
 // GET bug reports by search term
-bugRouter.get(`/api/v1/bugs/:searchType/:searchTerm`, getBugReportBySearchTerm);
+bugRouter.get("/bugs/:searchType/:searchTerm", getBugReportBySearchTerm);
 
 // POST/Create bug reports
-bugRouter.post(`/api/v1/bugs`, createBugReport);
+bugRouter.post("/bugs", createBugReport);
 
 // PUT/Update bug reports by id
-bugRouter.put(`/api/v1/bugs/:id`, updateBugReportById);
+bugRouter.put("/bugs/:id", updateBugReportById);
 
 // DELETE bug reports by id
-bugRouter.delete(`/api/v1/bugs/:id`, deleteBugReportById);
+bugRouter.delete("/bugs/:id", deleteBugReportById);
 
 export default bugRouter;

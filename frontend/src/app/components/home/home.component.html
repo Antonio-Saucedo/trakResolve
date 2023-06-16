@@ -8,15 +8,30 @@
       <h2>Home</h2>
       <legend class="hidden">Report Bug</legend>
       <p>Login below.</p>
-      <label for="username"
-        >Username: <input formControlName="username" type="text" id="username"
+      <label for="email"
+        >Email: <input formControlName="email" type="text" id="email"
       /></label>
+      <div class="error-email" *ngIf="fc.email.errors && isSubmitted">
+        <div *ngIf="fc.email.errors.required">
+          Please enter your email.
+        </div>
+        <div *ngIf="fc.email.errors.email">Email is not valid.</div>
+      </div>
       <label for="password"
-        >Password: <input formControlName="password" placeholder="password" type="password" id="password"
+        >Password:
+        <input
+          formControlName="password"
+          placeholder="password"
+          type="password"
+          id="password"
       /></label>
-      <!-- <input #p type="text" [value]="password"/> -->
-      <button type="submit">Login</button>
-      <button>Create an account</button>
+      <div class="error-password" *ngIf="fc.password.errors && isSubmitted">
+        <div *ngIf="fc.password.errors.required">
+          Please enter your password.
+        </div>
+      </div>
+      <button class="login" type="submit">Login</button>
+      <button class="create">Create an account</button>
     </fieldset>
   </form>
 </main>

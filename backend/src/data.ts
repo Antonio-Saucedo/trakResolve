@@ -1,6 +1,6 @@
 export const sample_bugs: any[] = [
   {
-    _id: 1,
+    _id: "1",
     summary: 'Something does not display correctly.',
     link: 'https://www.facebook.com',
     imageUrl: 'assets/images/bug1.jpg',
@@ -14,7 +14,7 @@ export const sample_bugs: any[] = [
     tags: ['display', 'facebook', 'cutting off', 'view'],
   },
   {
-    _id: 2,
+    _id: "2",
     summary: 'Scroll does not work correctly.',
     link: 'https://www.facebook.com',
     imageUrl: 'assets/images/bug1.jpg',
@@ -27,3 +27,24 @@ export const sample_bugs: any[] = [
     tags: ['functionality', 'scroll', 'facebook', 'videos'],
   },
 ];
+
+export const sample_users: any[] = [
+  {
+    _id: "1",
+    firstName: "Test",
+    lastName: "User",
+    email: "testUser@gmail.com",
+    phone: "",
+    password: "password",
+    role: "user",
+  },
+  {
+    _id: "2",
+    firstName: "Admin",
+    lastName: "User",
+    email: "adminUser@gmail.com",
+    phone: "",
+    password: "password",
+    role: "admin",
+  }
+]

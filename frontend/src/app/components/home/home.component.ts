@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BugService } from 'src/app/services/bug.service';
-import { Bug } from 'src/app/shared/models/bug';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -13,16 +13,24 @@ export class HomeComponent {
   @Output() toggleSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
   loginForm!: FormGroup;
   isSubmitted = false;
+  returnUrl = '';
 
   handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required, Validators.email],
       password: ['', Validators.required],
     });
+
+    this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
   }
 
   // Form controls
@@ -35,9 +43,14 @@ export class HomeComponent {
     if (this.loginForm.invalid) {
       return;
     } else {
-      alert(
-        `username: ${this.fc.username.value}, password: ${this.fc.password.value}`
-      );
+      this.userService
+        .login({
+          email: this.fc.email.value,
+          password: this.fc.password.value,
+        })
+        .subscribe(() => {
+          this.router.navigateByUrl(this.returnUrl);
+        });
     }
   }
 }

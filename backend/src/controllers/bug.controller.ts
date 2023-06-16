@@ -1,7 +1,9 @@
 import { getDb } from "../configs/database.config";
+import { claimEquals } from "express-openid-connect";
+import asyncHandler from "express-async-handler";
 const ObjectId = require("mongodb").ObjectId;
 
-export const getAllBugReports = async (req: any, res: any) => {
+export const getAllBugReports = asyncHandler(async (req: any, res: any) => {
   try {
     const result = await getDb().db("trakResolve").collection("bugs").find();
     result.toArray().then((lists: any) => {
@@ -15,9 +17,9 @@ export const getAllBugReports = async (req: any, res: any) => {
   } catch (err) {
     res.status(500).json("Bug reports were not found. Try again later.");
   }
-};
+});
 
-export const getBugReportBySearchTerm = async (req: any, res: any) => {
+export const getBugReportBySearchTerm = asyncHandler(async (req: any, res: any) => {
   try {
     const valid = ["_id", "summary", "link", "description", "resolved", "tag"];
     const searchType = req.params.searchType;
@@ -44,93 +46,107 @@ export const getBugReportBySearchTerm = async (req: any, res: any) => {
           });
         }
       } else if (searchType == "summary") {
-          const result = await getDb()
-            .db("trakResolve")
-            .collection("bugs")
-            .find({ summary: searchTerm });
-          result.toArray().then((lists: any) => {
-            if (!lists[0]) {
-              res
-                .status(404)
-                .json(`Bug report with summary containing ${searchTerm} was not found.`);
-            } else {
-              res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
-            }
-          });
+        const result = await getDb()
+          .db("trakResolve")
+          .collection("bugs")
+          .find({ summary: searchTerm });
+        result.toArray().then((lists: any) => {
+          if (!lists[0]) {
+            res
+              .status(404)
+              .json(
+                `Bug report with summary containing ${searchTerm} was not found.`
+              );
+          } else {
+            res.setHeader("Content-Type", "application/json");
+            res.status(200).json(lists[0]);
+          }
+        });
       } else if (searchType == "link") {
-          const result = await getDb()
-            .db("trakResolve")
-            .collection("bugs")
-            .find({ link: searchTerm });
-          result.toArray().then((lists: any) => {
-            if (!lists[0]) {
-              res
-                .status(404)
-                .json(`Bug report with link containing ${searchTerm} was not found.`);
-            } else {
-              res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
-            }
-          });
+        const result = await getDb()
+          .db("trakResolve")
+          .collection("bugs")
+          .find({ link: searchTerm });
+        result.toArray().then((lists: any) => {
+          if (!lists[0]) {
+            res
+              .status(404)
+              .json(
+                `Bug report with link containing ${searchTerm} was not found.`
+              );
+          } else {
+            res.setHeader("Content-Type", "application/json");
+            res.status(200).json(lists[0]);
+          }
+        });
       } else if (searchType == "description") {
         const userId = new ObjectId(req.params.id);
-          const result = await getDb()
-            .db("trakResolve")
-            .collection("bugs")
-            .find({ description: searchTerm });
-          result.toArray().then((lists: any) => {
-            if (!lists[0]) {
-              res
-                .status(404)
-                .json(`Bug report with description containing ${searchTerm} was not found.`);
-            } else {
-              res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
-            }
-          });
+        const result = await getDb()
+          .db("trakResolve")
+          .collection("bugs")
+          .find({ description: searchTerm });
+        result.toArray().then((lists: any) => {
+          if (!lists[0]) {
+            res
+              .status(404)
+              .json(
+                `Bug report with description containing ${searchTerm} was not found.`
+              );
+          } else {
+            res.setHeader("Content-Type", "application/json");
+            res.status(200).json(lists[0]);
+          }
+        });
       } else if (searchType == "resolved") {
-          const result = await getDb()
-            .db("trakResolve")
-            .collection("bugs")
-            .find({ resolved: searchTerm });
-          result.toArray().then((lists: any) => {
-            if (!lists[0]) {
-              res
-                .status(404)
-                .json(`Bug report with resolved value os ${searchTerm} was not found.`);
-            } else {
-              res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
-            }
-          });
+        const result = await getDb()
+          .db("trakResolve")
+          .collection("bugs")
+          .find({ resolved: searchTerm });
+        result.toArray().then((lists: any) => {
+          if (!lists[0]) {
+            res
+              .status(404)
+              .json(
+                `Bug report with resolved value os ${searchTerm} was not found.`
+              );
+          } else {
+            res.setHeader("Content-Type", "application/json");
+            res.status(200).json(lists[0]);
+          }
+        });
       } else if (searchType == "tag") {
-          const result = await getDb()
-            .db("trakResolve")
-            .collection("bugs")
-            .find({ tag: searchTerm });
-          result.toArray().then((lists: any) => {
-            if (!lists[0]) {
-              res
-                .status(404)
-                .json(`Bug report with tags containing ${searchTerm} was not found.`);
-            } else {
-              res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
-            }
-          });
+        const result = await getDb()
+          .db("trakResolve")
+          .collection("bugs")
+          .find({ tag: searchTerm });
+        result.toArray().then((lists: any) => {
+          if (!lists[0]) {
+            res
+              .status(404)
+              .json(
+                `Bug report with tags containing ${searchTerm} was not found.`
+              );
+          } else {
+            res.setHeader("Content-Type", "application/json");
+            res.status(200).json(lists[0]);
+          }
+        });
       } else {
         getAllBugReports;
       }
     } else {
-      res.status(400).json("Search types are _id, summary, link, description, resolved and tag.");
+      res
+        .status(400)
+        .json(
+          "Search types are _id, summary, link, description, resolved and tag."
+        );
     }
   } catch (err) {
     res.status(500).json("Bug report was not found. Try again later.");
   }
-};
+});
 
-export const createBugReport = async (req: any, res: any) => {
+export const createBugReport = asyncHandler(async (req: any, res: any) => {
   try {
     if (req.oidc.isAuthenticated()) {
       let failMessage = "";
@@ -202,10 +218,17 @@ export const createBugReport = async (req: any, res: any) => {
         "Something went wrong while creating the bug report. Try again later."
       );
   }
-};
+});
 
-export const updateBugReportById = async (req: any, res: any) => {
+export const updateBugReportById = asyncHandler(async (req: any, res: any) => {
   try {
+    if (claimEquals("user", true)) {
+      res
+        .status(401)
+        .json(
+          "You do not have access to update bug reports. Please create a new report for additional problems."
+        );
+    }
     if (req.oidc.isAuthenticated()) {
       if (!ObjectId.isValid(req.params.id)) {
         res.status(400).json("ID must be alphanumeric, 24 characters long.");
@@ -293,10 +316,17 @@ export const updateBugReportById = async (req: any, res: any) => {
   } catch (err) {
     res.status(500).json(err);
   }
-};
+});
 
-export const deleteBugReportById = async (req: any, res: any) => {
+export const deleteBugReportById = asyncHandler(async (req: any, res: any) => {
   try {
+    if (claimEquals("admin", false)) {
+      res
+        .status(401)
+        .json(
+          "You must be an admin to delete bug reports. Please contact a TrakResolve admin for help."
+        );
+    }
     if (req.oidc.isAuthenticated()) {
       if (!ObjectId.isValid(req.params.id)) {
         res.status(400).json("ID must be alphanumeric, 24 characters long.");
@@ -325,4 +355,4 @@ export const deleteBugReportById = async (req: any, res: any) => {
   } catch (err) {
     res.status(500).json(err);
   }
-};
+});

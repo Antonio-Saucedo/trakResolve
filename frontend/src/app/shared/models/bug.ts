@@ -1,5 +1,5 @@
 export class Bug {
-  _id!: number;
+  _id!: string;
   summary!: string;
   link!: string;
   imageUrl?: string;

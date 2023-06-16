@@ -5,16 +5,20 @@
     "description": "Trak Resolve Info API",
     "version": "1.0.0"
   },
-  "host": "https://trakresolve.onrender.com",
+  "host": "localhost:5200",
   "basePath": "/",
   "tags": [
     {
       "name": "bugs",
       "description": "Get bug report information from Trak Resolve."
+    },
+    {
+      "name": "users",
+      "description": "Get user profile information from Trak Resolve."
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/api/v1/bugs": {
@@ -174,6 +178,196 @@
           }
         }
       }
+    },
+    "/api/v1/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Request Trak resolve user profiles",
+        "description": "A request for Trak Resolve administrators to see user profile information.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["users"],
+        "summary": "Add Trak resolve user profiles.",
+        "description": "A request for Trak Resolve users to create their user profiles.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/users"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Request Trak resolve user profile information by id.",
+        "description": "A request for Trak Resolve administrators to see user profile information.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Update Trak resolve user profiles.",
+        "description": "A request for Trak Resolve users to update their user profiles.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/components/schemas/users"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["users"],
+        "summary": "Delete Trak resolve user profiles.",
+        "description": "A request for Trak Resolve Administrators to delete user profiles.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Trak resolve login system.",
+        "description": "A login system for Trak Resolve users.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -206,6 +400,29 @@
             "type": "boolean"
           },
           "tags": {
+            "type": "string"
+          }
+        }
+      },
+      "users": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "number"
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
             "type": "string"
           }
         }

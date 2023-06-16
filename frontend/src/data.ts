@@ -2,7 +2,7 @@ import { Bug } from './app/shared/models/bug';
 
 export const sample_bugs: Bug[] = [
   {
-    _id: 1,
+    _id: "1",
     summary: 'Something does not display correctly.',
     link: 'https://www.facebook.com',
     imageUrl: 'assets/images/bug1.jpg',
@@ -16,7 +16,7 @@ export const sample_bugs: Bug[] = [
     tags: ['display', 'facebook', 'cutting off', 'view'],
   },
   {
-    _id: 2,
+    _id: "2",
     summary: 'Scroll does not work correctly.',
     link: 'https://www.facebook.com',
     imageUrl: 'assets/images/bug1.jpg',
