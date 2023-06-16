@@ -27,24 +27,3 @@ export const sample_bugs: any[] = [
     tags: ['functionality', 'scroll', 'facebook', 'videos'],
   },
 ];
-
-export const sample_users: any[] = [
-  {
-    _id: "1",
-    firstName: "Test",
-    lastName: "User",
-    email: "testUser@gmail.com",
-    phone: "",
-    password: "password",
-    role: "user",
-  },
-  {
-    _id: "2",
-    firstName: "Admin",
-    lastName: "User",
-    email: "adminUser@gmail.com",
-    phone: "",
-    password: "password",
-    role: "admin",
-  }
-]

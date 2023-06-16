@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Bug } from '../shared/models/bug';
-import { sample_bugs } from 'src/data';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BUGS_BY_SEARCH_URL, BUGS_URL } from '../shared/constants/urls';

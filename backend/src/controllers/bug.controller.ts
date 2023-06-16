@@ -19,132 +19,143 @@ export const getAllBugReports = asyncHandler(async (req: any, res: any) => {
   }
 });
 
-export const getBugReportBySearchTerm = asyncHandler(async (req: any, res: any) => {
-  try {
-    const valid = ["_id", "summary", "link", "description", "resolved", "tag"];
-    const searchType = req.params.searchType;
-    if (valid.includes(searchType)) {
-      const searchTerm = req.params.searchTerm;
-      if (searchType == "_id") {
-        if (!ObjectId.isValid(searchTerm)) {
-          res.status(400).json("ID must be alphanumeric, 24 characters long.");
-        } else {
-          const userId = new ObjectId(searchTerm);
+export const getBugReportBySearchTerm = asyncHandler(
+  async (req: any, res: any) => {
+    try {
+      const valid = [
+        "_id",
+        "summary",
+        "link",
+        "description",
+        "resolved",
+        "tag",
+      ];
+      const searchType = req.params.searchType;
+      if (valid.includes(searchType)) {
+        const searchTerm = req.params.searchTerm;
+        if (searchType == "_id") {
+          if (!ObjectId.isValid(searchTerm)) {
+            res
+              .status(400)
+              .json("ID must be alphanumeric, 24 characters long.");
+          } else {
+            const userId = new ObjectId(searchTerm);
+            const result = await getDb()
+              .db("trakResolve")
+              .collection("bugs")
+              .find({ _id: userId });
+            result.toArray().then((lists: any) => {
+              if (!lists[0]) {
+                res
+                  .status(404)
+                  .json(`Bug report with ID ${userId} was not found.`);
+              } else {
+                res.setHeader("Content-Type", "application/json");
+                res.status(200).json(lists[0]);
+              }
+            });
+          }
+        } else if (searchType == "summary") {
           const result = await getDb()
             .db("trakResolve")
             .collection("bugs")
-            .find({ _id: userId });
+            .find({ summary: { $regex: searchTerm } });
           result.toArray().then((lists: any) => {
             if (!lists[0]) {
               res
                 .status(404)
-                .json(`Bug report with ID ${userId} was not found.`);
+                .json(
+                  `Bug report with summary containing ${searchTerm} was not found.`
+                );
             } else {
               res.setHeader("Content-Type", "application/json");
               res.status(200).json(lists[0]);
             }
           });
+        } else if (searchType == "link") {
+          const result = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .find({ link: { $regex: searchTerm } });
+          result.toArray().then((lists: any) => {
+            if (!lists[0]) {
+              res
+                .status(404)
+                .json(
+                  `Bug report with link containing ${searchTerm} was not found.`
+                );
+            } else {
+              res.setHeader("Content-Type", "application/json");
+              res.status(200).json(lists[0]);
+            }
+          });
+        } else if (searchType == "description") {
+          const userId = new ObjectId(req.params.id);
+          const result = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .find({ description: { $regex: searchTerm } });
+          result.toArray().then((lists: any) => {
+            if (!lists[0]) {
+              res
+                .status(404)
+                .json(
+                  `Bug report with description containing ${searchTerm} was not found.`
+                );
+            } else {
+              res.setHeader("Content-Type", "application/json");
+              res.status(200).json(lists[0]);
+            }
+          });
+        } else if (searchType == "resolved") {
+          const result = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .find({ resolved: searchTerm.toLowerCase() == "true" });
+          result.toArray().then((lists: any) => {
+            if (!lists[0]) {
+              res
+                .status(404)
+                .json(
+                  `Bug report with resolved value os ${searchTerm} was not found.`
+                );
+            } else {
+              res.setHeader("Content-Type", "application/json");
+              res.status(200).json(lists[0]);
+            }
+          });
+        } else if (searchType == "tag") {
+          const result = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .find({ tags: { $regex: searchTerm } });
+          result.toArray().then((lists: any) => {
+            if (!lists[0]) {
+              res
+                .status(404)
+                .json(
+                  `Bug report with tags containing ${searchTerm} was not found.`
+                );
+            } else {
+              res.setHeader("Content-Type", "application/json");
+              res.status(200).json(lists[0]);
+            }
+          });
+        } else {
+          getAllBugReports;
         }
-      } else if (searchType == "summary") {
-        const result = await getDb()
-          .db("trakResolve")
-          .collection("bugs")
-          .find({ summary: searchTerm });
-        result.toArray().then((lists: any) => {
-          if (!lists[0]) {
-            res
-              .status(404)
-              .json(
-                `Bug report with summary containing ${searchTerm} was not found.`
-              );
-          } else {
-            res.setHeader("Content-Type", "application/json");
-            res.status(200).json(lists[0]);
-          }
-        });
-      } else if (searchType == "link") {
-        const result = await getDb()
-          .db("trakResolve")
-          .collection("bugs")
-          .find({ link: searchTerm });
-        result.toArray().then((lists: any) => {
-          if (!lists[0]) {
-            res
-              .status(404)
-              .json(
-                `Bug report with link containing ${searchTerm} was not found.`
-              );
-          } else {
-            res.setHeader("Content-Type", "application/json");
-            res.status(200).json(lists[0]);
-          }
-        });
-      } else if (searchType == "description") {
-        const userId = new ObjectId(req.params.id);
-        const result = await getDb()
-          .db("trakResolve")
-          .collection("bugs")
-          .find({ description: searchTerm });
-        result.toArray().then((lists: any) => {
-          if (!lists[0]) {
-            res
-              .status(404)
-              .json(
-                `Bug report with description containing ${searchTerm} was not found.`
-              );
-          } else {
-            res.setHeader("Content-Type", "application/json");
-            res.status(200).json(lists[0]);
-          }
-        });
-      } else if (searchType == "resolved") {
-        const result = await getDb()
-          .db("trakResolve")
-          .collection("bugs")
-          .find({ resolved: searchTerm });
-        result.toArray().then((lists: any) => {
-          if (!lists[0]) {
-            res
-              .status(404)
-              .json(
-                `Bug report with resolved value os ${searchTerm} was not found.`
-              );
-          } else {
-            res.setHeader("Content-Type", "application/json");
-            res.status(200).json(lists[0]);
-          }
-        });
-      } else if (searchType == "tag") {
-        const result = await getDb()
-          .db("trakResolve")
-          .collection("bugs")
-          .find({ tag: searchTerm });
-        result.toArray().then((lists: any) => {
-          if (!lists[0]) {
-            res
-              .status(404)
-              .json(
-                `Bug report with tags containing ${searchTerm} was not found.`
-              );
-          } else {
-            res.setHeader("Content-Type", "application/json");
-            res.status(200).json(lists[0]);
-          }
-        });
       } else {
-        getAllBugReports;
+        res
+          .status(400)
+          .json(
+            "Search types are _id, summary, link, description, resolved and tag."
+          );
       }
-    } else {
-      res
-        .status(400)
-        .json(
-          "Search types are _id, summary, link, description, resolved and tag."
-        );
+    } catch (err) {
+      res.status(500).json("Bug report was not found. Try again later.");
     }
-  } catch (err) {
-    res.status(500).json("Bug report was not found. Try again later.");
   }
-});
+);
 
 export const createBugReport = asyncHandler(async (req: any, res: any) => {
   try {

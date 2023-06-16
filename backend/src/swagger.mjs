@@ -48,7 +48,8 @@ const doc = {
             type: "boolean",
           },
           tags: {
-            type: "string",
+            type: "list",
+            example: ["tag1", "tag2", "tag3"]
           },
         },
       },
