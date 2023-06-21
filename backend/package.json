@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devStart": "cd src && nodemon server.ts",
+    "devStart": "cd src && start http://localhost:5200 && nodemon server.ts",
     "start": "cd src && ts-node server.ts",
     "swagger": "cd src && node ./swagger.mjs"
   },
