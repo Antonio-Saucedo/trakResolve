@@ -14,7 +14,7 @@ export class BugService {
     return this.http.get<Bug[]>(BUGS_URL);
   }
 
-  getAllBugsBySearchTerms(searchType: string, searchTerm: string) {
+  getAllBugsBySearchTerms(searchType: string, searchTerm: string): Observable<Bug[]> {
     return this.http.get<Bug[]>(
       BUGS_BY_SEARCH_URL + searchType + '/' + searchTerm
     );

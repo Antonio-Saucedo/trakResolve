@@ -24,7 +24,7 @@
     }
   }
 
-  background: #0900b3;
+  background: #000000;
   color: #fff;
 
   .header {
@@ -35,8 +35,8 @@
   }
 
   .chevron {
-    background: #ababab;
-    color: #0900b3;
+    background: #660084;
+    color: #fff;
     cursor: pointer;
     transition: 0.3s;
     padding: 10px;
@@ -49,7 +49,7 @@
     }
 
     &:hover {
-      color: #fff;
+      color: #bd0000;
     }
   }
 
@@ -70,7 +70,7 @@
         &:hover {
           background: #ababab;
           .title {
-            color: #fff;
+            color: #bd0000;
           }
           svg {
             fill: #fff;
@@ -78,7 +78,7 @@
         }
 
         &.active {
-          background: #ababab;
+          background: #660084;
           .title {
             color: #fff;
           }

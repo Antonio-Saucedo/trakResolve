@@ -3,35 +3,16 @@
   (toggleSidebar)="isExpanded = !isExpanded"
 ></app-sidebar>
 <main class="main" [ngClass]="{ expanded: isExpanded }">
-  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+  <form>
     <fieldset>
-      <h2>Home</h2>
-      <legend class="hidden">Report Bug</legend>
-      <p>Login below.</p>
-      <label for="email"
-        >Email: <input formControlName="email" type="text" id="email"
-      /></label>
-      <div class="error-email" *ngIf="fc.email.errors && isSubmitted">
-        <div *ngIf="fc.email.errors.required">
-          Please enter your email.
-        </div>
-        <div *ngIf="fc.email.errors.email">Email is not valid.</div>
+      <h2>Welcome to TrakResolve {{user.firstName}} {{user.lastName}}!</h2>
+      <legend class="hidden">Welcome</legend>
+      <div>
+        <img src="../../../assets/images/trakResolve.svg" alt="TrakResolve Logo">
+        <p>TrakResolve is an application that will help report all the problems you run into when surfing the web and web applications.</p>
+        <button>Create ticket</button>
+        <button>Ticket lookup</button>
       </div>
-      <label for="password"
-        >Password:
-        <input
-          formControlName="password"
-          placeholder="password"
-          type="password"
-          id="password"
-      /></label>
-      <div class="error-password" *ngIf="fc.password.errors && isSubmitted">
-        <div *ngIf="fc.password.errors.required">
-          Please enter your password.
-        </div>
-      </div>
-      <button class="login" type="submit">Login</button>
-      <button class="create">Create an account</button>
     </fieldset>
   </form>
 </main>

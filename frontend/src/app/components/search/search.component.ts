@@ -27,10 +27,8 @@ export class SearchComponent {
   ) {
     let BugsObservable: Observable<Bug[]>;
     activatedRoute.params.subscribe((params) => {
-      if (params.searchType) {
-        this.searchType = params.searchType;
-      }
       if (params.searchTerm) {
+        this.searchType = params.searchType;
         this.searchTerm = params.searchTerm;
         BugsObservable = this.bugService.getAllBugsBySearchTerms(
           params.searchType,

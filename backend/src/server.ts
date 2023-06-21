@@ -7,6 +7,7 @@ import userRouter from "./routers/user.router";
 import swaggerRouter from "./routers/swagger.router";
 import { auth, requiresAuth } from "express-openid-connect";
 import cors from "cors";
+import path from 'path';
 
 const app = express();
 
@@ -36,6 +37,9 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname,'public', 'index.html'))
+// })
 
 // req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {

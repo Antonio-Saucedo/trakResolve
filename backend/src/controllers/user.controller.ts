@@ -147,13 +147,15 @@ export const loginUser = asyncHandler(async (req: any, res: any) => {
     const user = await getDb()
       .db("trakResolve")
       .collection("users")
-      .findOne({ email: data.email });
+      .findOne({ email: data.email.toLowerCase() });
     if (user && (await bcrypt.compare(data.password, user.password))) {
       res.send(generateTokenReponse(user));
     } else {
+      console.log(data.password, user.password);
       res.status(400).send("Invalid email or password.");
     }
   } catch (err) {
+    console.log(req.body.email, req.body.password);
     res.status(500).json("Something went wrong during login. Try again later.");
   }
 });

@@ -1,0 +1,37 @@
+<app-sidebar
+  [isExpanded]="isExpanded"
+  (toggleSidebar)="isExpanded = !isExpanded"
+></app-sidebar>
+<main class="main" [ngClass]="{ expanded: isExpanded }">
+  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <fieldset>
+      <h2>Login</h2>
+      <legend class="hidden">Login</legend>
+      <p>Login below.</p>
+      <label for="email"
+        >Email: <input formControlName="email" type="email" id="email"
+      /></label>
+      <div class="error-email" *ngIf="fc.email.errors && isSubmitted">
+        <div *ngIf="fc.email.errors.required">
+          Please enter your email.
+        </div>
+        <div *ngIf="fc.email.errors.email">Email is not valid.</div>
+      </div>
+      <label for="password"
+        >Password:
+        <input
+          formControlName="password"
+          placeholder="password"
+          type="password"
+          id="password"
+      /></label>
+      <div class="error-password" *ngIf="fc.password.errors && isSubmitted">
+        <div *ngIf="fc.password.errors.required">
+          Please enter your password.
+        </div>
+      </div>
+      <button class="login" type="submit">Login</button>
+      <button class="create">Create an account</button>
+    </fieldset>
+  </form>
+</main>

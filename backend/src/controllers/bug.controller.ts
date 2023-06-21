@@ -51,7 +51,7 @@ export const getBugReportBySearchTerm = asyncHandler(
                   .json(`Bug report with ID ${userId} was not found.`);
               } else {
                 res.setHeader("Content-Type", "application/json");
-                res.status(200).json(lists[0]);
+                res.status(200).json(lists);
               }
             });
           }
@@ -69,7 +69,7 @@ export const getBugReportBySearchTerm = asyncHandler(
                 );
             } else {
               res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
+              res.status(200).json(lists);
             }
           });
         } else if (searchType == "link") {
@@ -86,7 +86,7 @@ export const getBugReportBySearchTerm = asyncHandler(
                 );
             } else {
               res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
+              res.status(200).json(lists);
             }
           });
         } else if (searchType == "description") {
@@ -104,7 +104,7 @@ export const getBugReportBySearchTerm = asyncHandler(
                 );
             } else {
               res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
+              res.status(200).json(lists);
             }
           });
         } else if (searchType == "resolved") {
@@ -121,7 +121,7 @@ export const getBugReportBySearchTerm = asyncHandler(
                 );
             } else {
               res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
+              res.status(200).json(lists);
             }
           });
         } else if (searchType == "tag") {
@@ -138,7 +138,7 @@ export const getBugReportBySearchTerm = asyncHandler(
                 );
             } else {
               res.setHeader("Content-Type", "application/json");
-              res.status(200).json(lists[0]);
+              res.status(200).json(lists);
             }
           });
         } else {
