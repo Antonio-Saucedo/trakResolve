@@ -8,8 +8,9 @@
       <h2 class="hidden">Report Bug</h2>
       <legend class="hidden">Report Bug</legend>
       <div>
-        <button>Create ticket</button>
-        <button>Ticket lookup</button>
+        <button [routerLink]="['/search']" [routerLinkActive]="'active'">
+          Ticket lookup
+        </button>
       </div>
       <label for="summary">Summary<input #s type="text" id="summary" /></label>
       <label for="link">URL link<input #l type="text" id="link" /></label>

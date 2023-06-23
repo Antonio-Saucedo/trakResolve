@@ -1,4 +1,7 @@
-<app-sidebar [isExpanded]="isExpanded" (toggleSidebar)="isExpanded = !isExpanded"></app-sidebar>
+<app-sidebar
+  [isExpanded]="isExpanded"
+  (toggleSidebar)="isExpanded = !isExpanded"
+></app-sidebar>
 <main class="search" [ngClass]="{ expanded: isExpanded }">
   <div class="container">
     <h2>Search</h2>
@@ -6,6 +9,7 @@
       <label for="searchType">Search by: </label>
       <select #t name="searchType" id="searchType" [value]="searchType">
         <option value="_id">_id</option>
+        <option value="reportedBy">reported by</option>
         <option value="summary">summary</option>
         <option value="link">link</option>
         <option value="description">description</option>
@@ -28,6 +32,9 @@
       <li *ngFor="let bug of bugs">
         <a routerLink="/search/_id/{{ bug._id }}">
           <div class="content {{ bug.resolved ? 'green' : 'red' }}">
+            <div class="reportedBy">
+              {{ bug.reportedBy }}
+            </div>
             <div class="summary">
               {{ bug.summary }}
             </div>

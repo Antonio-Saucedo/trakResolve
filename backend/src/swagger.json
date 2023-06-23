@@ -17,18 +17,14 @@
       "description": "Get user profile information from Trak Resolve."
     }
   ],
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "paths": {
     "/api/v1/search": {
       "get": {
         "tags": ["bugs"],
         "summary": "Request Trak resolve bug reports",
         "description": "A request for Trak Resolve users to see bug report information.",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -79,16 +75,22 @@
         "tags": ["bugs"],
         "summary": "Request Trak resolve bug report information by search type.",
         "description": "A request for Trak Resolve users to see bug report information.",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "searchType",
             "in": "path",
             "required": true,
             "type": "string",
-            "enum": ["_id", "summary", "link", "description", "resolved", "tag"]
+            "enum": [
+              "_id",
+              "reportedBy",
+              "summary",
+              "link",
+              "description",
+              "resolved",
+              "tag"
+            ]
           },
           {
             "name": "searchTerm",
@@ -184,9 +186,7 @@
         "tags": ["users"],
         "summary": "Request Trak resolve user profiles",
         "description": "A request for Trak Resolve administrators to see user profile information.",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -243,9 +243,7 @@
         "tags": ["users"],
         "summary": "Request Trak resolve user profile information by id.",
         "description": "A request for Trak Resolve administrators to see user profile information.",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -375,6 +373,9 @@
       "bugs": {
         "type": "object",
         "properties": {
+          "reportedBy": {
+            "type": "string"
+          },
           "summary": {
             "type": "string"
           },

@@ -15,9 +15,16 @@
     margin: 20px auto;
     border: 5px solid #660084;
 
-    img {
-      width: 25%;
-      min-width: 200px;
+    p,
+    label {
+      margin: 10px 0;
+    }
+
+    label {
+      display: block;
+      text-align: center;
+      // justify-content: center;
+      // width: 100%;
     }
 
     button {

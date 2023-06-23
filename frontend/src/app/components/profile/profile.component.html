@@ -5,24 +5,27 @@
 <main class="main" [ngClass]="{ expanded: isExpanded }">
   <form>
     <fieldset>
-      <h2>Welcome to TrakResolve {{ user.firstName }} {{ user.lastName }}!</h2>
-      <legend class="hidden">Welcome</legend>
+      <h2>{{ user.firstName }} {{ user.lastName }} profile</h2>
+      <legend class="hidden">profile</legend>
       <div>
-        <img
-          src="../../../assets/images/trakResolve.svg"
-          alt="TrakResolve Logo"
-        />
+        <img src="../../../assets/images/user.svg" alt="profile image" />
         <p>
-          TrakResolve is an application that will help report all the problems
-          you run into when surfing the web and web applications.
+          This is your TrakResolve profile.<br />Below is the information that
+          you registered with.
         </p>
+        <div class="userInfo">
+          <p>{{ user.firstName }} {{ user.lastName }}</p>
+          <p>{{ user.email }}</p>
+          <p *ngIf="user.phone != 0">{{ user.phone }}</p>
+          <p *ngIf="user.role != 'user'">{{ user.role }}</p>
+        </div>
         <div class="buttons">
           <button
-            class="profile"
-            [routerLink]="['/profile']"
+            class="update"
+            [routerLink]="['/updateInfo']"
             [routerLinkActive]="'active'"
           >
-            View profile
+            Update Profile
           </button>
           <button
             class="create"

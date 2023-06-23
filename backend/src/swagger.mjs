@@ -23,6 +23,9 @@ const doc = {
       bugs: {
         type: "object",
         properties: {
+          reportedBy: {
+            type: "string",
+          },
           summary: {
             type: "string",
           },
@@ -49,7 +52,7 @@ const doc = {
           },
           tags: {
             type: "list",
-            example: ["tag1", "tag2", "tag3"]
+            example: ["tag1", "tag2", "tag3"],
           },
         },
       },

@@ -24,6 +24,7 @@ export const getBugReportBySearchTerm = asyncHandler(
     try {
       const valid = [
         "_id",
+        "reportedBy",
         "summary",
         "link",
         "description",
@@ -55,6 +56,21 @@ export const getBugReportBySearchTerm = asyncHandler(
               }
             });
           }
+        } else if (searchType == "reportedBy") {
+          const result = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .find({ reportedBy: { $regex: searchTerm } });
+          result.toArray().then((lists: any) => {
+            if (!lists[0]) {
+              res
+                .status(404)
+                .json(`Bug reports reported by ${searchTerm} were not found.`);
+            } else {
+              res.setHeader("Content-Type", "application/json");
+              res.status(200).json(lists);
+            }
+          });
         } else if (searchType == "summary") {
           const result = await getDb()
             .db("trakResolve")

@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginPageComponent } from './components/login-page/login-page.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { UpdateInfoComponent } from './components/update-info/update-info.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { LoginPageComponent } from './components/login-page/login-page.component
     ReportBugComponent,
     NotFoundComponent,
     LoginPageComponent,
+    ProfileComponent,
+    UpdateInfoComponent,
   ],
   imports: [
     BrowserModule,

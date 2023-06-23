@@ -1,0 +1,34 @@
+<app-sidebar
+  [isExpanded]="isExpanded"
+  (toggleSidebar)="isExpanded = !isExpanded"
+></app-sidebar>
+<main class="main" [ngClass]="{ expanded: isExpanded }">
+  <form>
+    <fieldset>
+      <h2>{{ user.firstName }} {{ user.lastName }} profile update</h2>
+      <legend class="hidden">Update profile</legend>
+      <div>
+        <p>Enter the fields that need to be changed.</p>
+        <label for="firstName"
+          >First Name <input #fn type="text" id="firstName"
+        /></label>
+        <label for="lastName"
+          >Last Name <input #ln type="text" id="lastName"
+        /></label>
+        <label for="phone"
+          >Phone Number <input #p type="phone" id="phone"
+        /></label>
+        <label for="password"
+          >Password <input #u type="password" id="username"
+        /></label>
+          <button
+            class="create"
+            [routerLink]="['/profile']"
+            [routerLinkActive]="'active'"
+          >
+            Update profile
+          </button>
+        </div>
+    </fieldset>
+  </form>
+</main>
