@@ -3,8 +3,9 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../shared/models/user';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 import { HttpClient } from '@angular/common/http';
-import { USER_LOGIN_URL } from '../shared/constants/urls';
+import { USER_LOGIN_URL, USER_MESSAGE_URL } from '../shared/constants/urls';
 import { ToastrService } from 'ngx-toastr';
+import { Message } from '../shared/models/message';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class UserService {
   private userSubject = new BehaviorSubject<User>(
     this.getUserFromLocalStorage()
   );
+
   public userObservable: Observable<User>;
 
   constructor(private http: HttpClient, private toastrService: ToastrService) {
@@ -45,6 +47,11 @@ export class UserService {
     this.userSubject.next(new User());
     localStorage.removeItem('User');
     window.location.reload();
+  }
+
+  getMessages(): Observable<Message[]> {
+    const id = JSON.parse(localStorage.getItem('User')!).id;
+    return this.http.get<Message[]>(USER_MESSAGE_URL + id);
   }
 
   private setUserToLocalStorage(user: User) {

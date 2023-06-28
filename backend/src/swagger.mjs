@@ -77,6 +77,10 @@ const doc = {
           role: {
             type: "string",
           },
+          messages: {
+            type: "array",
+            example: ["tag1", "tag2", "tag3"],
+          }
         },
       },
     },

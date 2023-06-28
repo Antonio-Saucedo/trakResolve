@@ -1,0 +1,53 @@
+.main {
+  margin: auto 20px auto 80px;
+  height: 100%;
+
+  transition: 0.3s;
+
+  &.expanded {
+    margin-left: 170px;
+  }
+
+  .container {
+    height: 95.5vh;
+    min-height: 400px;
+    text-align: center;
+    padding: 10px;
+    margin: 20px auto;
+    border: 5px solid #660084;
+  }
+
+  ul {
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    height: 94%;
+    padding: 10px;
+  }
+
+  .content {
+    padding: 10px;
+    height: 100%;
+    width: 200px;
+  }
+
+  li:nth-child(n) {
+    margin-right: 10px;
+  }
+
+  li:nth-last-child(-n + 1) {
+    margin-right: 0;
+  }
+
+  .red {
+    border: 5px solid red;
+  }
+
+  .green {
+    border: 5px solid green;
+  }
+
+  a {
+    color: black;
+  }
+}

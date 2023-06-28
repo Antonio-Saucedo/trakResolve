@@ -335,6 +335,67 @@
         }
       }
     },
+    "/api/v1/users/{id}/{parameter}":{
+      "put": {
+        "tags": ["users"],
+        "summary": "Request Trak resolve user profile information by id.",
+        "description": "A request for Trak Resolve administrators to see user profile information.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "parameter",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "firstName",
+              "lastName",
+              "email",
+              "phone",
+              "password",
+              "role"
+            ]
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "parameter": {
+                  "type": "string | number",
+                  "example": "string | number"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/v1/users/login": {
       "post": {
         "tags": ["users"],
@@ -363,6 +424,89 @@
           },
           "400": {
             "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/v1/users/messages/{id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Request Trak resolve user profile messages by id.",
+        "description": "A request for Trak Resolve users to see user messages.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["users"],
+        "summary": "Request to update Trak resolve user messages by id.",
+        "description": "A request to update Trak Resolve user messages.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "bugId": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "isOpen": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -426,6 +570,25 @@
           },
           "role": {
             "type": "string"
+          },
+          "messages": {
+            "type": "list",
+            "items": {
+              "properties": {
+                "bugId": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "isOpen": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "example": [{
+              "bugId": "string", "message": "string", "isOpen": true
+            }]
           }
         }
       }

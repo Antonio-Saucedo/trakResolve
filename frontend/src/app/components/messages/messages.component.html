@@ -1,0 +1,18 @@
+<app-sidebar
+  [isExpanded]="isExpanded"
+  (toggleSidebar)="isExpanded = !isExpanded"
+></app-sidebar>
+<main class="main" [ngClass]="{ expanded: isExpanded }">
+  <div class="container">
+    <h2>Messages</h2>
+    <ul>
+      <li *ngFor="let message of messages">
+        <div class="content {{ message.isOpen ? 'red' : 'green' }}">
+          <p>{{ message.bugId }}</p>
+          <p>{{ message.message }}</p>
+          <p>{{ message.isOpen }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</main>

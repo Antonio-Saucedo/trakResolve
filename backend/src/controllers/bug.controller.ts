@@ -19,6 +19,30 @@ export const getAllBugReports = asyncHandler(async (req: any, res: any) => {
   }
 });
 
+export const getBugById = asyncHandler(async (req: any, res: any) => {
+  try {
+    if (!ObjectId.isValid(req.params.id)) {
+      res.status(400).json("ID must be alphanumeric, 24 characters long.");
+    } else {
+      const userId = new ObjectId(req.params.id);
+      const result = await getDb()
+        .db("trakResolve")
+        .collection("bugs")
+        .find({ _id: userId });
+      result.toArray().then((lists: any) => {
+        if (!lists[0]) {
+          res.status(404).json(`Bug report with ID ${userId} was not found.`);
+        } else {
+          res.setHeader("Content-Type", "application/json");
+          res.status(200).json(lists);
+        }
+      });
+    }
+  } catch (err) {
+    res.status(500).json("Bug reports were not found. Try again later.");
+  }
+});
+
 export const getBugReportBySearchTerm = asyncHandler(
   async (req: any, res: any) => {
     try {

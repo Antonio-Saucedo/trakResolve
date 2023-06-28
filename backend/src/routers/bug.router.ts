@@ -5,11 +5,15 @@ import {
   updateBugReportById,
   deleteBugReportById,
   getBugReportBySearchTerm,
+  getBugById,
 } from "../controllers/bug.controller";
 const bugRouter = Router();
 
 // GET all bug reports
 bugRouter.get("/search", getAllBugReports);
+
+// GET bug report by id
+bugRouter.get("/search/:id", getBugById);
 
 // GET bug reports by search term
 bugRouter.get("/search/:searchType/:searchTerm", getBugReportBySearchTerm);

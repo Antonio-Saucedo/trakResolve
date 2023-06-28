@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UpdateInfoComponent } from './components/update-info/update-info.component';
+import { MessagesComponent } from './components/messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { UpdateInfoComponent } from './components/update-info/update-info.compon
     LoginPageComponent,
     ProfileComponent,
     UpdateInfoComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,

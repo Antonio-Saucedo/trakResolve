@@ -6,3 +6,4 @@ export const BUGS_URL = BASE_URL + `/api/v${API_VERSION}/search`;
 export const BUGS_BY_SEARCH_URL = BUGS_URL + '/';
 
 export const USER_LOGIN_URL = BASE_URL + `/api/v${API_VERSION}/users/login`;
+export const USER_MESSAGE_URL = BASE_URL + `/api/v${API_VERSION}/users/messages/`;
