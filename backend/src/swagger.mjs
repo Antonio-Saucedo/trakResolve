@@ -67,6 +67,7 @@ const doc = {
           },
           email: {
             type: "string",
+            format: "email",
           },
           phone: {
             type: "number",
@@ -79,8 +80,23 @@ const doc = {
           },
           messages: {
             type: "array",
-            example: ["tag1", "tag2", "tag3"],
-          }
+            items: {
+              bugId: {
+                type: "string",
+              },
+              message: {
+                type: "string",
+              },
+              isOpen: {
+                type: "boolean",
+              },
+            },
+            example: {
+              bugId: "string",
+              message: "string",
+              isOpen: true,
+            },
+          },
         },
       },
     },

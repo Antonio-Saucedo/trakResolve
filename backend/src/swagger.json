@@ -560,7 +560,8 @@
             "type": "string"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "format": "email"
           },
           "phone": {
             "type": "number"
@@ -572,7 +573,7 @@
             "type": "string"
           },
           "messages": {
-            "type": "list",
+            "type": "array",
             "items": {
               "properties": {
                 "bugId": {
@@ -586,9 +587,9 @@
                 }
               }
             },
-            "example": [{
+            "example": {
               "bugId": "string", "message": "string", "isOpen": true
-            }]
+            }
           }
         }
       }
