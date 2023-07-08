@@ -5,7 +5,7 @@
 <main class="main" [ngClass]="{ expanded: isExpanded }">
   <form [formGroup]="reportBugForm" (ngSubmit)="submit()">
     <fieldset>
-      <h2>Report Bug</h2>
+      <h2 *ngIf="bug">Bug {{bug._id}}</h2>
       <legend class="hidden">Report Bug</legend>
       <div>
         <button [routerLink]="['/search']" [routerLinkActive]="'active'">

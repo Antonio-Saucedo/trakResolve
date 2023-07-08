@@ -22,7 +22,7 @@ userRouter.get("/users/:id", getuserById);
 userRouter.get("/users/messages/:id", getuserMessages);
 
 // POST/Create users
-userRouter.post("/users", createUser);
+userRouter.post("/users/register", createUser);
 
 // POST login user
 userRouter.post("/users/login", loginUser);

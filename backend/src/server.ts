@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import { initDb } from "./configs/database.config";
@@ -7,14 +7,16 @@ import userRouter from "./routers/user.router";
 import swaggerRouter from "./routers/swagger.router";
 import { auth, requiresAuth } from "express-openid-connect";
 import cors from "cors";
-import path from 'path';
+import path from "path";
 
 const app = express();
 
-app.use(cors({
-  credentials:true,
-  origin:["http://localhost:4200"]
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:4200"],
+  })
+);
 
 const config = {
   authRequired: false,

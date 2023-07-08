@@ -19,7 +19,7 @@
   ],
   "schemes": ["http"],
   "paths": {
-    "/api/v1/search": {
+    "/api/v1/bugs": {
       "get": {
         "tags": ["bugs"],
         "summary": "Request Trak resolve bug reports",
@@ -70,7 +70,7 @@
         }
       }
     },
-    "/api/v1/search/{searchType}/{searchTerm}": {
+    "/api/v1/bugs/search/{searchType}/{searchTerm}": {
       "get": {
         "tags": ["bugs"],
         "summary": "Request Trak resolve bug report information by search type.",
@@ -115,7 +115,35 @@
         }
       }
     },
-    "/api/v1/search/{id}": {
+    "/api/v1/bugs/{id}": {
+      "get": {
+        "tags": ["bugs"],
+        "summary": "Request Trak resolve bug reports",
+        "description": "A request for Trak Resolve users to see bug report information based on ID.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
       "put": {
         "tags": ["bugs"],
         "summary": "Update Trak resolve bug reports.",
@@ -202,7 +230,9 @@
             "description": "Internal Server Error"
           }
         }
-      },
+      }
+    },
+    "/api/v1/users/register": {
       "post": {
         "tags": ["users"],
         "summary": "Add Trak resolve user profiles.",
@@ -335,7 +365,7 @@
         }
       }
     },
-    "/api/v1/users/{id}/{parameter}":{
+    "/api/v1/users/{id}/{parameter}": {
       "put": {
         "tags": ["users"],
         "summary": "Request Trak resolve user profile information by id.",
@@ -588,7 +618,9 @@
               }
             },
             "example": {
-              "bugId": "string", "message": "string", "isOpen": true
+              "bugId": "string",
+              "message": "string",
+              "isOpen": true
             }
           }
         }

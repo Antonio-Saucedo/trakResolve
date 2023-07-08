@@ -10,21 +10,21 @@ import {
 const bugRouter = Router();
 
 // GET all bug reports
-bugRouter.get("/search", getAllBugReports);
+bugRouter.get("/bugs", getAllBugReports);
 
 // GET bug report by id
-bugRouter.get("/search/:id", getBugById);
+bugRouter.get("/bugs/:id", getBugById);
 
 // GET bug reports by search term
-bugRouter.get("/search/:searchType/:searchTerm", getBugReportBySearchTerm);
+bugRouter.get("/bugs/search/:searchType/:searchTerm", getBugReportBySearchTerm);
 
 // POST/Create bug reports
-bugRouter.post("/search", createBugReport);
+bugRouter.post("/bugs", createBugReport);
 
 // PUT/Update bug reports by id
-bugRouter.put("/search/:id", updateBugReportById);
+bugRouter.put("/bugs/:id", updateBugReportById);
 
 // DELETE bug reports by id
-bugRouter.delete("/search/:id", deleteBugReportById);
+bugRouter.delete("/bugs/:id", deleteBugReportById);
 
 export default bugRouter;

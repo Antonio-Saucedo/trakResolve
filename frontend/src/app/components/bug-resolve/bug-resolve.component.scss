@@ -1,0 +1,55 @@
+.main {
+  margin: auto 20px auto 80px;
+  height: 100%;
+
+  transition: 0.3s;
+
+  &.expanded {
+    margin-left: 170px;
+  }
+
+  .container,
+  ul,
+  li {
+    padding: 10px;
+  }
+
+  .container {
+    height: 95.5vh;
+    min-height: 519px;
+    margin: 20px auto;
+    border: 5px solid #660084;
+
+    h2 {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    ul {
+      display: flex;
+      border: 1px solid #660084;
+      height: 95%;
+      overflow: scroll;
+    }
+
+    @media (max-height: 49.813em)
+    {
+      ul {
+        height: 93%;
+        min-height: 453px;
+      }
+    }
+  }
+
+    li {
+      display: block;
+      height: 100%;
+      width: 300px;
+      border: 1px solid #660084;
+      margin-right: 10px;
+    }
+
+    li:nth-last-child(-n + 1) {
+      margin-right: 0;
+    }
+}

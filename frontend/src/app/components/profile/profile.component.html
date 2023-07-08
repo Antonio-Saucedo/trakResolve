@@ -28,6 +28,12 @@
             Update Profile
           </button>
           <button
+            class="logout"
+            (click)="logout()"
+          >
+            Logout
+          </button>
+          <button
             class="create"
             [routerLink]="['/reportBug']"
             [routerLinkActive]="'active'"

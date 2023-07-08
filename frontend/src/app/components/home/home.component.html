@@ -5,7 +5,8 @@
 <main class="main" [ngClass]="{ expanded: isExpanded }">
   <form>
     <fieldset>
-      <h2>Welcome to TrakResolve {{ user.firstName }} {{ user.lastName }}!</h2>
+      <h2 *ngIf="user.firstName != ''">Welcome to TrakResolve {{ user.firstName }} {{ user.lastName }}!</h2>
+      <h2 *ngIf="user.firstName == ''">Welcome to TrakResolve!</h2>
       <legend class="hidden">Welcome</legend>
       <div>
         <img
@@ -21,8 +22,17 @@
             class="profile"
             [routerLink]="['/profile']"
             [routerLinkActive]="'active'"
+            *ngIf="user.firstName"
           >
             View profile
+          </button>
+          <button
+            class="login"
+            [routerLink]="['/login']"
+            [routerLinkActive]="'active'"
+            *ngIf="!user.firstName"
+          >
+            Login
           </button>
           <button
             class="create"

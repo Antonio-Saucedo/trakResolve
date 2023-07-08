@@ -199,9 +199,16 @@ export const getBugReportBySearchTerm = asyncHandler(
 
 export const createBugReport = asyncHandler(async (req: any, res: any) => {
   try {
-    if (req.oidc.isAuthenticated()) {
+    if (
+      claimEquals("user", true) ||
+      claimEquals("developer", true) ||
+      claimEquals("qa", true) ||
+      claimEquals("lead", true) ||
+      claimEquals("admin", true)
+    ) {
       let failMessage = "";
       const data = {
+        reportedBy: req.body.reportedBy,
         summary: req.body.summary,
         link: req.body.link,
         imageUrl: req.body.imageUrl,
@@ -212,6 +219,15 @@ export const createBugReport = asyncHandler(async (req: any, res: any) => {
         resolved: req.body.resolved,
         tags: req.body.tags,
       };
+      if (typeof data.reportedBy != "string") {
+        failMessage += "To create bug report, enter a reportedBy string.\n";
+      }
+      if (
+        typeof data.reportedBy == "string" &&
+        !ObjectId.isValid(data.reportedBy)
+      ) {
+        failMessage += "ID must be alphanumeric, 24 characters long.";
+      }
       if (typeof data.summary != "string") {
         failMessage += "To create bug report, enter a summary string.\n";
       }
@@ -237,8 +253,8 @@ export const createBugReport = asyncHandler(async (req: any, res: any) => {
         failMessage +=
           "To create bug report, enter a true/false resolved value.\n";
       }
-      if (typeof data.tags != "string") {
-        failMessage += "To create bug report, enter a tags strings.\n";
+      if (typeof data.tags != "object") {
+        failMessage += "To create bug report, enter a tags list.\n";
       }
       if (failMessage != "") {
         res.status(400);

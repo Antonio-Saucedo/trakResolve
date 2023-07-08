@@ -24,3 +24,29 @@ a {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.toast-success,
+.toast-error {
+  position: absolute;
+  width: 350px;
+  bottom: 20px;
+  right: 12.5px;
+  border-radius: 10px 0 0 10px;
+  color: white;
+}
+
+.toast-success {
+  background-color: green;
+}
+
+.toast-error {
+  background-color: #bd0000;
+}
+
+.toast-title {
+  padding: 10px 10px 0;
+}
+
+.toast-message {
+  padding: 0 10px 10px;
+}

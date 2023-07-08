@@ -8,24 +8,12 @@
     margin-left: 170px;
   }
 
-  img {
-    margin: 10px;
-  }
-
-  fieldset {
+  .container {
     height: 95.5vh;
+    min-height: 400px;
     text-align: center;
     padding: 10px;
     margin: 20px auto;
     border: 5px solid #660084;
-
-    button {
-      padding: 5px 10px;
-      margin-top: 10px;
-
-      &:nth-child(-n + 3) {
-        margin-right: 10px;
-      }
-    }
   }
 }

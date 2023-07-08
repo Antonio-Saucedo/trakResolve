@@ -3,11 +3,10 @@
   (toggleSidebar)="isExpanded = !isExpanded"
 ></app-sidebar>
 <main class="main" [ngClass]="{ expanded: isExpanded }">
-  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+  <!-- <form [formGroup]="registerForm" (ngSubmit)="submit()">
     <fieldset>
-      <h2>Login</h2>
-      <legend class="hidden">Login</legend>
-      <p>Login below.</p>
+      <h2>Create and Account</h2>
+      <legend class="hidden">Create and Account</legend>
       <label for="email"
         >Email: <input formControlName="email" type="email" id="email"
       /></label>
@@ -37,5 +36,5 @@
         Create an account
       </button>
     </fieldset>
-  </form>
+  </form> -->
 </main>

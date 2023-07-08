@@ -16,8 +16,14 @@
     border: 5px solid #660084;
 
     img {
-      width: 25%;
+      width: 50%;
       min-width: 200px;
+    }
+
+    @media (min-width: 68.75em) {
+      img {
+        width: 35%;
+      }
     }
 
     button {

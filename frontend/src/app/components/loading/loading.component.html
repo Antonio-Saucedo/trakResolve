@@ -1,0 +1,9 @@
+<app-sidebar
+  [isExpanded]="isExpanded"
+  (toggleSidebar)="isExpanded = !isExpanded"
+></app-sidebar>
+<main class="main" [ngClass]="{ expanded: isExpanded }">
+  <div class="container" *ngIf="isLoading">
+    <h2>Loading...</h2>
+  </div>
+</main>

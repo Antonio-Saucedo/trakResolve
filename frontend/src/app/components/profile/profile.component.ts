@@ -19,4 +19,8 @@ export class ProfileComponent {
       this.user = newUser;
     });
   }
+
+  logout() {
+    this.userService.logout();
+  }
 }

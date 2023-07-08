@@ -3,19 +3,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BugService } from 'src/app/services/bug.service';
 import { UserService } from 'src/app/services/user.service';
+import { Bug } from 'src/app/shared/models/bug';
 
 @Component({
-  selector: 'app-report-bug',
-  templateUrl: './report-bug.component.html',
-  styleUrls: ['./report-bug.component.scss'],
+  selector: 'app-bug',
+  templateUrl: './bug.component.html',
+  styleUrls: ['./bug.component.scss'],
 })
-export class ReportBugComponent {
+export class BugComponent {
   @Input() isExpanded: boolean = false;
   @Output() toggleSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
   reportBugForm!: FormGroup;
   isSubmitted = false;
   newReport = false;
   returnUrl = '';
+  bug!: Bug;
 
   handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
 
@@ -25,7 +27,15 @@ export class ReportBugComponent {
     private bugService: BugService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    activatedRoute.params.subscribe((params) => {
+      if (params.id) {
+        bugService.getById(params.id).subscribe((serverBug) => {
+          this.bug = serverBug[0];
+        });
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.reportBugForm = this.formBuilder.group({

@@ -1,0 +1,45 @@
+<app-sidebar
+  [isExpanded]="isExpanded"
+  (toggleSidebar)="isExpanded = !isExpanded"
+></app-sidebar>
+<main class="main" [ngClass]="{ expanded: isExpanded }">
+  <div class="container">
+    <h2>Resolve Bugs</h2>
+    <ul>
+      <li *ngFor="let bug of bugs">
+        <a routerLink="/bug/{{ bug._id }}">
+          <div class="content">
+            <p>
+              Reported By:
+              {{ bug.reportedBy }}
+            </p>
+            <p>
+              Summary:
+              {{ bug.summary }}
+            </p>
+            <p>
+              Link:
+              {{ bug.link }}
+            </p>
+            <p>
+              Description:
+              {{ bug.description }}
+            </p>
+            <p>
+              Reproduction Findings:
+              {{ bug.reproductionFindings }}
+            </p>
+            <p>
+              Development Findings:
+              {{ bug.developmentFindings }}
+            </p>
+            <p>
+              Message:
+              {{ bug.message }}
+            </p>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</main>
