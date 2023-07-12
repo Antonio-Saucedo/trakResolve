@@ -3,28 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Login to access the Trak Resolve Info API." />
+    <meta
+      name="description"
+      content="Login to access the Trak Resolve Info API."
+    />
     <title><%= title %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <nav>
-      <ul>
-        <% if(!isAuthenticated) { %>
-        <li>
-          <a href="/login/">Login</a>
-        </li>
-        <% } else { %>
-        <li>
-          <a href="/logout">Logout</a>
-        </li>
-        <% } %>
-        <li>
-          <a href="/api/v<%= version %>/api-docs">API Docs</a>
-        </li>
-      </ul>
-    </nav>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <div>
+      <a href="/api/v<%= version %>/api-docs">API Docs</a>
+    </div>
   </body>
 </html>

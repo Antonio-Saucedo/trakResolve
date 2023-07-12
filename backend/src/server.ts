@@ -28,11 +28,11 @@ const config = {
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
+// app.use(auth(config));
 
-app.get("/profile", requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
-});
+// app.get("/profile", requiresAuth(), (req, res) => {
+//   res.send(JSON.stringify(req.oidc.user));
+// });
 
 app.set("views", "views");
 app.set("view engine", "ejs");
@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
   // console.log(req.oidc.isAuthenticated());
   res.render("index", {
     title: "Trak Resolve Info API",
-    isAuthenticated: req.oidc.isAuthenticated(),
+    // isAuthenticated: req.oidc.isAuthenticated(),
     version: process.env.VERSION,
   });
 });
