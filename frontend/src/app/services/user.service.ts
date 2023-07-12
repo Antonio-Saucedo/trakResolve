@@ -24,6 +24,8 @@ export class UserService {
 
   public currentUserId = this.getUserId();
 
+  public currentUserName = this.getUserName();
+
   constructor(private http: HttpClient, private toastrService: ToastrService) {
     this.userObservable = this.userSubject.asObservable();
   }
@@ -34,6 +36,10 @@ export class UserService {
 
   private getUserId(): string {
     return this.userSubject.value.id;
+  }
+
+  private getUserName(): string {
+    return this.userSubject.value.firstName + this.userSubject.value.lastName;
   }
 
   login(userLogin: IUserLogin): Observable<User> {

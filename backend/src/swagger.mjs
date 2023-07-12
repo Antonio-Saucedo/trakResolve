@@ -32,9 +32,6 @@ const doc = {
           link: {
             type: "string",
           },
-          imageUrl: {
-            type: "string",
-          },
           description: {
             type: "string",
           },

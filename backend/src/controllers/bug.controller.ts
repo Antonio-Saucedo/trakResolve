@@ -34,7 +34,7 @@ export const getBugById = asyncHandler(async (req: any, res: any) => {
           res.status(404).json(`Bug report with ID ${userId} was not found.`);
         } else {
           res.setHeader("Content-Type", "application/json");
-          res.status(200).json(lists);
+          res.status(200).json(lists[0]);
         }
       });
     }
@@ -211,7 +211,6 @@ export const createBugReport = asyncHandler(async (req: any, res: any) => {
         reportedBy: req.body.reportedBy,
         summary: req.body.summary,
         link: req.body.link,
-        imageUrl: req.body.imageUrl,
         description: req.body.description,
         reproductionFindings: req.body.reproductionFindings,
         developmentFindings: req.body.developmentFindings,
@@ -222,20 +221,11 @@ export const createBugReport = asyncHandler(async (req: any, res: any) => {
       if (typeof data.reportedBy != "string") {
         failMessage += "To create bug report, enter a reportedBy string.\n";
       }
-      if (
-        typeof data.reportedBy == "string" &&
-        !ObjectId.isValid(data.reportedBy)
-      ) {
-        failMessage += "ID must be alphanumeric, 24 characters long.";
-      }
       if (typeof data.summary != "string") {
         failMessage += "To create bug report, enter a summary string.\n";
       }
       if (typeof data.link != "string") {
         failMessage += "To create bug report, enter a link string.\n";
-      }
-      if (typeof data.imageUrl != "string") {
-        failMessage += "To create bug report, enter an imageUrl string.\n";
       }
       if (typeof data.description != "string") {
         failMessage += "To create bug report, enter a description string.\n";
@@ -304,7 +294,6 @@ export const updateBugReportById = asyncHandler(async (req: any, res: any) => {
         const data = {
           summary: req.body.summary,
           link: req.body.link,
-          imageUrl: req.body.imageUrl,
           description: req.body.description,
           reproductionFindings: req.body.reproductionFindings,
           developmentFindings: req.body.developmentFindings,
@@ -317,9 +306,6 @@ export const updateBugReportById = asyncHandler(async (req: any, res: any) => {
         }
         if (typeof data.link != "string") {
           failMessage += "To update bug report, enter a link string.\n";
-        }
-        if (typeof data.imageUrl != "string") {
-          failMessage += "To update bug report, enter an imageUrl string.\n";
         }
         if (typeof data.description != "string") {
           failMessage += "To update bug report, enter a description string.\n";
@@ -355,7 +341,6 @@ export const updateBugReportById = asyncHandler(async (req: any, res: any) => {
                 $set: {
                   summary: data.summary,
                   link: data.link,
-                  imageUrl: data.imageUrl,
                   description: data.description,
                   reproductionFindings: data.reproductionFindings,
                   developmentFindings: data.developmentFindings,

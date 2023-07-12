@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { BugService } from 'src/app/services/bug.service';
 import { UserService } from 'src/app/services/user.service';
 import { Bug } from 'src/app/shared/models/bug';
@@ -17,7 +18,18 @@ export class BugComponent {
   isSubmitted = false;
   newReport = false;
   returnUrl = '';
-  bug!: Bug;
+  bug: Bug = {
+    _id: '',
+    reportedBy: '',
+    summary: '',
+    link: '',
+    description: '',
+    reproductionFindings: '',
+    developmentFindings: '',
+    message: '',
+    resolved: false,
+    tags: [],
+  };
 
   handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
 
@@ -28,10 +40,12 @@ export class BugComponent {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
+    let BugObservable: Observable<Bug>;
     activatedRoute.params.subscribe((params) => {
       if (params.id) {
-        bugService.getById(params.id).subscribe((serverBug) => {
-          this.bug = serverBug[0];
+        BugObservable = this.bugService.getById(params.id);
+        BugObservable.subscribe((serverBug) => {
+          this.bug = serverBug;
         });
       }
     });
@@ -70,7 +84,6 @@ export class BugComponent {
         summary: this.fc.summary.value.toLowerCase(),
         link: this.fc.link.value.toLowerCase(),
         description: this.fc.description.value,
-        imageUrl: value1,
         reproductionFindings: value1,
         developmentFindings: value1,
         message: value1,

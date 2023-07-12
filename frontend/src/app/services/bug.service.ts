@@ -15,8 +15,8 @@ export class BugService {
     return this.http.get<Bug[]>(BUGS_URL);
   }
 
-  getById(id: string): Observable<Bug[]> {
-    return this.http.get<Bug[]>(BUGS_ID_URL + id);
+  getById(id: string): Observable<Bug> {
+    return this.http.get<Bug>(BUGS_ID_URL + id);
   }
 
   getAllBugsBySearchTerms(

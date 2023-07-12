@@ -3,7 +3,6 @@ export const sample_bugs: any[] = [
     _id: "1",
     summary: 'Something does not display correctly.',
     link: 'https://www.facebook.com',
-    imageUrl: 'assets/images/bug1.jpg',
     description: 'The videos are not displaying correctly.',
     reproductionFindings:
       'The videos are cutting off when the user scrolls down.',
@@ -17,7 +16,6 @@ export const sample_bugs: any[] = [
     _id: "2",
     summary: 'Scroll does not work correctly.',
     link: 'https://www.facebook.com',
-    imageUrl: 'assets/images/bug1.jpg',
     description: 'The videos are not loading correctly.',
     reproductionFindings: 'The videos are not loading for this user.',
     developmentFindings: 'We fixed the issue by... doing some stuff.',

@@ -56,11 +56,10 @@ export class ReportBugComponent {
     }
     this.bugService
       .reportBug({
-        reportedBy: this.userService.currentUserId,
+        reportedBy: this.userService.currentUserName,
         summary: this.fc.summary.value.toLowerCase(),
         link: this.fc.link.value.toLowerCase(),
         description: this.fc.description.value,
-        imageUrl: value1,
         reproductionFindings: value1,
         developmentFindings: value1,
         message: value1,
