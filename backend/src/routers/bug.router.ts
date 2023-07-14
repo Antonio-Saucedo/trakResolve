@@ -3,9 +3,11 @@ import {
   getAllBugReports,
   getBugById,
   getBugReportBySearchTerm,
+  getuserMessages,
   createBugReport,
   updateBugReportById,
   updateBugTagsById,
+  updateBugMessagesById,
   deleteBugReportById,
 } from "../controllers/bug.controller";
 const bugRouter = Router();
@@ -19,6 +21,9 @@ bugRouter.get("/bugs/:id", getBugById);
 // GET bug reports by search term
 bugRouter.get("/bugs/search/:searchType/:searchTerm", getBugReportBySearchTerm);
 
+// GET user messages
+bugRouter.get("/bugs/messages/:user", getuserMessages);
+
 // POST/Create bug reports
 bugRouter.post("/bugs", createBugReport);
 
@@ -27,6 +32,9 @@ bugRouter.put("/bugs/:id", updateBugReportById);
 
 // PUT/Update bug report tags by id
 bugRouter.put("/bugs/tags/:id", updateBugTagsById);
+
+// PUT/Update users messages by id
+bugRouter.put("/bugs/messages/:id", updateBugMessagesById);
 
 // DELETE bug reports by id
 bugRouter.delete("/bugs/:id", deleteBugReportById);

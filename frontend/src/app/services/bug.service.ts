@@ -7,8 +7,10 @@ import {
   BUGS_ID_URL,
   BUGS_URL,
   BUG_TAGS_ID_URL,
+  BUG_MESSAGE_URL,
 } from '../shared/constants/urls';
 import { ToastrService } from 'ngx-toastr';
+import { Message } from '../shared/models/message';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +59,37 @@ export class BugService {
     );
   }
 
+  updateBug(id: string, bugReport: Bug) {
+    return this.http.put<Bug>(BUGS_ID_URL + id, bugReport).pipe(
+      tap({
+        next: (bug: any) => {
+          this.toastrService.success(
+            'Bug report updated successfully.',
+            `Bug report ID: ${id}.`,
+            {
+              positionClass: 'toast-success',
+            }
+          );
+        },
+        error: (errorResponse) => {
+          if (errorResponse.statusText == 'Not Modified') {
+            this.toastrService.error(
+              'Make changes to bug report to update.',
+              errorResponse.statusText,
+              { positionClass: 'toast-error' }
+            );
+          } else {
+            this.toastrService.error(
+              errorResponse.statusText,
+              'An error occurred.',
+              { positionClass: 'toast-error' }
+            );
+          }
+        },
+      })
+    );
+  }
+
   addTags(id: string, body: string) {
     return this.http.put<string>(BUG_TAGS_ID_URL + id, body).pipe(
       tap({
@@ -78,5 +111,13 @@ export class BugService {
         },
       })
     );
+  }
+
+  getMessages(): Observable<Message[]> {
+    const user =
+      JSON.parse(localStorage.getItem('User')!).firstName +
+      '_' +
+      JSON.parse(localStorage.getItem('User')!).lastName;
+    return this.http.get<Message[]>(BUG_MESSAGE_URL + user);
   }
 }

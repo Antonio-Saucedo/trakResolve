@@ -31,7 +31,7 @@
           <button type="submit">Add Tag</button>
           <div
             class="error-tag"
-            *ngIf="tagfc.tag.errors && isSubmitted"
+            *ngIf="tagfc.tag.errors && isTagSubmitted"
             class="pad"
           >
             <div *ngIf="tagfc.tag.errors.required">Please enter a tag.</div>
@@ -51,7 +51,6 @@
             formControlName="summary"
             type="text"
             id="summary"
-            value="{{ bug.summary }}"
         /></label>
         <div
           class="error-summary"
@@ -68,7 +67,6 @@
             formControlName="link"
             type="text"
             id="link"
-            value="{{ bug.link }}"
         /></label>
         <div
           class="error-link"
@@ -80,13 +78,11 @@
         <label for="description"
           >Description
           <textarea
-            #d
             placeholder="Description of bug"
             id="description"
             cols="30"
             rows="10"
             formControlName="description"
-            value="{{ bug.description }}"
           ></textarea>
         </label>
         <div
@@ -104,28 +100,25 @@
         <label for="reproductionFindings"
           >Reproduction Findings
           <textarea
-            #d
             placeholder="Description of bug reproduction findings"
             id="reproductionFindings"
             cols="30"
             rows="10"
-            value="{{ bug.reproductionFindings }}"
+            formControlName="reproductionFindings"
           ></textarea>
         </label>
         <label for="developmentFindings"
           >Development Findings
           <textarea
-            #d
             placeholder="Description of bug resolution findings"
             id="developmentFindings"
             cols="30"
             rows="10"
-            value="{{ bug.developmentFindings }}"
+            formControlName="developmentFindings"
           ></textarea>
         </label>
         <div>
-          <button type="submit" (click)="new()">Create & new ticket</button>
-          <button type="submit">Create ticket</button>
+          <button type="submit">Update ticket</button>
         </div>
       </fieldset>
     </form>

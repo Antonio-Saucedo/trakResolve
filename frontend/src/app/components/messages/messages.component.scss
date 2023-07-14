@@ -8,10 +8,13 @@
     margin-left: 170px;
   }
 
+  h2 {
+    text-align: center;
+  }
+
   .container {
     height: 95.5vh;
     min-height: 400px;
-    text-align: center;
     padding: 10px;
     margin: 20px auto;
     border: 5px solid #660084;
@@ -20,7 +23,6 @@
   ul {
     border: 1px solid #000;
     display: flex;
-    justify-content: center;
     height: 94%;
     padding: 10px;
     overflow-y: scroll;
@@ -29,7 +31,11 @@
   .content {
     padding: 10px;
     height: 100%;
-    width: 200px;
+    width: 280px;
+
+    .message {
+      margin: 10px 0;
+    }
   }
 
   li:nth-child(n) {
@@ -40,12 +46,12 @@
     margin-right: 0;
   }
 
-  .red {
-    border: 5px solid red;
+  .false {
+    border: 5px solid #bd0000;
   }
 
-  .green {
-    border: 5px solid green;
+  .true {
+    border: 5px solid #660084;
   }
 
   a {

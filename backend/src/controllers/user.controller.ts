@@ -53,31 +53,6 @@ export const getuserById = asyncHandler(async (req: any, res: any) => {
   }
 });
 
-export const getuserMessages = asyncHandler(async (req: any, res: any) => {
-  try {
-    if (!ObjectId.isValid(req.params.id)) {
-      res.status(400).json("ID must be alphanumeric, 24 characters long.");
-    } else {
-      const userId = new ObjectId(req.params.id);
-      const result = await getDb()
-        .db("trakResolve")
-        .collection("users")
-        .find({ _id: userId })
-        .project({ messages: 1, _id: 0 });
-      result.toArray().then((lists: any) => {
-        if (!lists[0]) {
-          res.status(404).json(`User with ID ${userId} was not found.`);
-        } else {
-          res.setHeader("Content-Type", "application/json");
-          res.status(200).json(lists[0].messages);
-        }
-      });
-    }
-  } catch (err) {
-    res.status(500).json("User was not found. Try again later.");
-  }
-});
-
 export const createUser = asyncHandler(async (req: any, res: any) => {
   try {
     if (req.oidc.isAuthenticated()) {
@@ -562,72 +537,6 @@ export const updateUserByIdParameter = asyncHandler(
         } else {
           res.status(401).json("You must login to update user profiles.");
         }
-      }
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
-);
-
-export const updateUserMessagesById = asyncHandler(
-  async (req: any, res: any) => {
-    try {
-      if (
-        claimEquals("lead", false) &&
-        claimEquals("admin", false)
-      ) {
-        res.status(401).json("You must login to update user profile.");
-      } else {
-      if (req.oidc.isAuthenticated()) {
-        if (!ObjectId.isValid(req.params.id)) {
-          res.status(400).json("ID must be alphanumeric, 24 characters long.");
-        } else {
-          let failMessage = "";
-          const data = {
-            bugId: req.body.bugId,
-            message: req.body.message,
-            isOpen: req.body.isOpen,
-          };
-          if (typeof data.bugId != "string") {
-            failMessage += "To update user messages, enter a bugId string.\n";
-          }
-          if (typeof data.message != "string") {
-            failMessage += "To update user messages, enter a message string.\n";
-          }
-          if (typeof data.isOpen != "boolean") {
-            failMessage += "To update user messages, enter an isOpen boolean.\n";
-          }
-          if (failMessage != "") {
-            res.status(400);
-            res.send(failMessage);
-          } else {
-            const userId = new ObjectId(req.params.id);
-            const responce = await getDb()
-              .db("trakResolve")
-              .collection("users")
-              .updateOne(
-                { _id: userId },
-                {
-                  $set: {
-                    messages: data,
-                  },
-                }
-              );
-            if (responce.modifiedCount > 0) {
-              res.status(204).send();
-            } else {
-              res
-                .status(500)
-                .json(
-                  responce.error ||
-                    "Something went wrong while updating the user profile. Try again later."
-                );
-            }
-          }
-        }
-      } else {
-        res.status(401).json("You must login to update user profiles.");
-      }
       }
     } catch (err) {
       res.status(500).json(err);

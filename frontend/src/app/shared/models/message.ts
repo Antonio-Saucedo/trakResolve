@@ -1,5 +1,5 @@
 export class Message {
-  bugId!: string;
+  _id!: string;
   message!: string;
-  isOpen!: boolean;
+  resolved!: boolean;
 }

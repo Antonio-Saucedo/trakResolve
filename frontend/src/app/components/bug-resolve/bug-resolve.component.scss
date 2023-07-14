@@ -19,6 +19,7 @@
     min-height: 519px;
     margin: 20px auto;
     border: 5px solid #660084;
+    overflow: scroll;
 
     h2 {
       margin-bottom: 10px;
@@ -32,8 +33,7 @@
       overflow: scroll;
     }
 
-    @media (max-height: 49.813em)
-    {
+    @media (max-height: 49.813em) {
       ul {
         height: 93%;
         min-height: 453px;
@@ -41,15 +41,32 @@
     }
   }
 
-    li {
-      display: block;
-      height: 100%;
-      width: 300px;
-      border: 1px solid #660084;
-      margin-right: 10px;
-    }
+  li {
+    display: block;
+    height: 100%;
+    width: 300px;
+    border: 1px solid #660084;
+    margin-right: 10px;
+    overflow: scroll;
 
-    li:nth-last-child(-n + 1) {
-      margin-right: 0;
+    a {
+      width: 100%;
     }
+  }
+
+  li:nth-last-child(-n + 1) {
+    margin-right: 0;
+  }
+
+  p:nth-child(n + 2) {
+    margin: 10px 0;
+  }
+
+  .false {
+    border: 5px solid #bd0000;
+  }
+
+  .true {
+    border: 5px solid #660084;
+  }
 }

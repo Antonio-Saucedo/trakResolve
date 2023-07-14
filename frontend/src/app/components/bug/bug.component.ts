@@ -1,6 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { BugService } from 'src/app/services/bug.service';
 import { UserService } from 'src/app/services/user.service';
@@ -17,13 +23,16 @@ export class BugComponent {
 
   handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
 
-  reportBugForm!: FormGroup;
+  reportBugForm: FormGroup = new FormGroup({
+    summary: new FormControl(''),
+    link: new FormControl(''),
+    description: new FormControl(''),
+    reproductionFindings: new FormControl(''),
+    developmentFindings: new FormControl(''),
+  });
   bugTagForm!: FormGroup;
   isSubmitted = false;
   isTagSubmitted = false;
-  newReport = false;
-  returnUrl = '';
-  returnTagUrl = '';
   bug: Bug = {
     _id: '',
     reportedBy: '',
@@ -39,20 +48,31 @@ export class BugComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
     private bugService: BugService,
+    private userService: UserService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private toastrService: ToastrService
   ) {
     let BugObservable: Observable<Bug>;
     activatedRoute.params.subscribe((params) => {
       if (params.id) {
-        this.returnTagUrl = `/bug/${params.id}`;
         BugObservable = this.bugService.getById(params.id);
         BugObservable.subscribe((serverBug) => {
           this.bug = serverBug;
+          this.initializeReportBugForm();
         });
       }
+    });
+  }
+
+  initializeReportBugForm() {
+    console.log(this.bug);
+    this.reportBugForm.setValue({
+      summary: this.bug.summary,
+      link: this.bug.link,
+      description: this.bug.description,
+      reproductionFindings: this.bug.reproductionFindings,
+      developmentFindings: this.bug.developmentFindings,
     });
   }
 
@@ -65,9 +85,9 @@ export class BugComponent {
       summary: ['', [Validators.required, Validators.minLength(10)]],
       link: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(10)]],
+      reproductionFindings: [''],
+      developmentFindings: [''],
     });
-
-    this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
   }
 
   // Form controls
@@ -79,37 +99,50 @@ export class BugComponent {
     return this.bugTagForm.controls;
   }
 
-  new() {
-    this.newReport = true;
-  }
-
   submit() {
     this.isSubmitted = true;
-    const value1 = '';
-    const value2 = false;
-    const value3 = <string[]>[];
     if (this.reportBugForm.invalid) {
       return;
     }
+    let message = this.bug.message;
+    if (
+      (<HTMLSelectElement>document.getElementById('resolved')).value !=
+        this.bug.resolved.toString() &&
+      (this.userService.currentUserRole == 'lead' ||
+        this.userService.currentUserRole == 'admin')
+    ) {
+      this.bug.resolved == false
+        ? (this.bug.resolved = true)
+        : (this.bug.resolved = false);
+      message =
+        'Thank you for your bug report! We have worked on and fixed the issue that was reported. Let us know if there are any other issues we can help with.';
+    } else if (
+      (<HTMLSelectElement>document.getElementById('resolved')).value !=
+        this.bug.resolved.toString() &&
+      this.userService.currentUserRole != 'lead' &&
+      this.userService.currentUserRole != 'admin'
+    ) {
+      this.toastrService.error(
+        'Not Authorized',
+        'Cannot update resolved status',
+        { positionClass: 'toast-error' }
+      );
+      return;
+    }
     this.bugService
-      .reportBug({
-        reportedBy: this.userService.currentUserId,
+      .updateBug(this.bug._id!, {
+        reportedBy: this.bug.reportedBy,
         summary: this.fc.summary.value.toLowerCase(),
         link: this.fc.link.value.toLowerCase(),
         description: this.fc.description.value,
-        reproductionFindings: value1,
-        developmentFindings: value1,
-        message: value1,
-        resolved: value2,
-        tags: value3,
+        reproductionFindings: this.fc.reproductionFindings.value,
+        developmentFindings: this.fc.developmentFindings.value,
+        message: this.bug.message,
+        resolved: this.bug.resolved,
+        tags: this.bug.tags,
       })
       .subscribe(() => {
-        if (!this.newReport) {
-          this.router.navigateByUrl(this.returnUrl);
-        } else {
-          this.isSubmitted = false;
-          this.reportBugForm.reset();
-        }
+        this.isSubmitted = false;
       });
   }
 
@@ -119,14 +152,10 @@ export class BugComponent {
       return;
     }
     this.bugService
-      .addTags(
-        this.bug._id!,
-        this.tagfc.tag.value.toLowerCase()
-      )
+      .addTags(this.bug._id!, this.tagfc.tag.value.toLowerCase())
       .subscribe(() => {
         this.isTagSubmitted = false;
         this.bugTagForm.reset();
-        this.router.navigateByUrl(this.returnTagUrl);
       });
   }
 }

@@ -6,38 +6,36 @@
   <div class="container">
     <h2>Resolve Bugs</h2>
     <ul>
-      <li *ngFor="let bug of bugs">
+      <li *ngFor="let bug of bugs" class="{{ bug.resolved ? 'true' : 'false' }}">
         <a routerLink="/bug/{{ bug._id }}">
-          <div class="content">
-            <p>
-              Reported By:
-              {{ bug.reportedBy }}
-            </p>
-            <p>
-              Summary:
-              {{ bug.summary }}
-            </p>
-            <p>
-              Link:
-              {{ bug.link }}
-            </p>
-            <p>
-              Description:
-              {{ bug.description }}
-            </p>
-            <p>
-              Reproduction Findings:
-              {{ bug.reproductionFindings }}
-            </p>
-            <p>
-              Development Findings:
-              {{ bug.developmentFindings }}
-            </p>
-            <p>
-              Message:
-              {{ bug.message }}
-            </p>
-          </div>
+          <p>
+            Reported By:
+            {{ bug.reportedBy }}
+          </p>
+          <p>
+            Summary:
+            {{ bug.summary }}
+          </p>
+          <p>
+            Link:
+            {{ bug.link }}
+          </p>
+          <p>
+            Description:
+            {{ bug.description }}
+          </p>
+          <p>
+            Reproduction Findings:
+            {{ bug.reproductionFindings }}
+          </p>
+          <p>
+            Development Findings:
+            {{ bug.developmentFindings }}
+          </p>
+          <p>
+            Message:
+            {{ bug.message }}
+          </p>
         </a>
       </li>
     </ul>

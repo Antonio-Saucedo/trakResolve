@@ -3,13 +3,8 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../shared/models/user';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 import { HttpClient } from '@angular/common/http';
-import {
-  USER_LOGIN_URL,
-  USER_MESSAGE_URL,
-  USER_REGISTER_URL,
-} from '../shared/constants/urls';
+import { USER_LOGIN_URL, USER_REGISTER_URL } from '../shared/constants/urls';
 import { ToastrService } from 'ngx-toastr';
-import { Message } from '../shared/models/message';
 import { IUserRegister } from '../shared/interfaces/IUserRegister';
 
 @Injectable({
@@ -26,6 +21,8 @@ export class UserService {
 
   public currentUserName = this.getUserName();
 
+  public currentUserRole = this.getRole();
+
   constructor(private http: HttpClient, private toastrService: ToastrService) {
     this.userObservable = this.userSubject.asObservable();
   }
@@ -39,7 +36,13 @@ export class UserService {
   }
 
   private getUserName(): string {
-    return this.userSubject.value.firstName + this.userSubject.value.lastName;
+    return (
+      this.userSubject.value.firstName + '_' + this.userSubject.value.lastName
+    );
+  }
+
+  private getRole(): string {
+    return this.userSubject.value.role;
   }
 
   login(userLogin: IUserLogin): Observable<User> {
@@ -50,11 +53,16 @@ export class UserService {
           this.userSubject.next(user);
           this.toastrService.success(
             `Welcome to Trak Resolve ${user.firstName}!`,
-            'Login Successful.'
+            'Login Successful.',
+            {
+              positionClass: 'toast-success',
+            }
           );
         },
         error: (errorResponse) => {
-          this.toastrService.error(errorResponse.error, 'Login Failed.');
+          this.toastrService.error(errorResponse.error, 'Login Failed.', {
+            positionClass: 'toast-error',
+          });
         },
       })
     );
@@ -82,11 +90,6 @@ export class UserService {
     this.userSubject.next(new User());
     localStorage.removeItem('User');
     window.location.reload();
-  }
-
-  getMessages(): Observable<Message[]> {
-    const id = JSON.parse(localStorage.getItem('User')!).id;
-    return this.http.get<Message[]>(USER_MESSAGE_URL + id);
   }
 
   private setUserToLocalStorage(user: User) {

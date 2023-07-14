@@ -44,8 +44,8 @@ import { BugComponent } from './components/bug/bug.component';
     HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      // timeOut: 3000,
-      disableTimeOut: true,
+      timeOut: 3000,
+      disableTimeOut: false,
       easing: "500",
       newestOnTop: false,
     }),

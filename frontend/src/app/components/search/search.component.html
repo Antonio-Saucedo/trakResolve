@@ -31,7 +31,7 @@
     <ul>
       <li *ngFor="let bug of bugs">
         <a routerLink="/search/_id/{{ bug._id }}">
-          <div class="content {{ bug.resolved ? 'green' : 'red' }}">
+          <div class="content {{ bug.resolved ? 'true' : 'false' }}">
             <div class="reportedBy">Reported By:
               {{ bug.reportedBy }}
             </div>

@@ -25,15 +25,16 @@
   .content {
     padding: 10px;
   }
-  .content:first-child{
+
+  .content:first-child {
     margin-bottom: 10px;
   }
 
-  .red {
-    border: 5px solid red;
+  .false {
+    border: 5px solid #bd0000;
   }
 
-  .green {
-    border: 5px solid green;
+  .true {
+    border: 5px solid #660084;
   }
 }

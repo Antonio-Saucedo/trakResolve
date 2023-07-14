@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
+import { BugService } from 'src/app/services/bug.service';
 import { Message } from 'src/app/shared/models/message';
 
 @Component({
@@ -17,18 +17,12 @@ export class MessagesComponent {
 
   messages: Message[] = [];
 
-  constructor(
-    private userService: UserService,
-    activatedRoute: ActivatedRoute
-  ) {
+  constructor(private bugService: BugService, activatedRoute: ActivatedRoute) {
     let MessagesObservable: Observable<Message[]>;
     activatedRoute.params.subscribe(() => {
-      MessagesObservable = this.userService.getMessages();
+      MessagesObservable = this.bugService.getMessages();
       MessagesObservable.subscribe((userMessages) => {
         this.messages = userMessages;
-        for (let i = 0; i < this.messages.length; i++) {
-        console.log(this.messages[i]);
-        }
       });
     });
   }
