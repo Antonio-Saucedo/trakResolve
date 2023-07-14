@@ -3,48 +3,131 @@
   (toggleSidebar)="isExpanded = !isExpanded"
 ></app-sidebar>
 <main class="main" [ngClass]="{ expanded: isExpanded }">
-  <form [formGroup]="reportBugForm" (ngSubmit)="submit()">
-    <fieldset>
-      <h2 *ngIf="bug">Bug {{bug._id}}</h2>
-      <legend class="hidden">Bug {{bug._id}}</legend>
-      <div>
-        <button [routerLink]="['/search']" [routerLinkActive]="'active'">
-          Ticket lookup
-        </button>
-      </div>
-      <label for="summary"
-        >Summary<input formControlName="summary" type="text" id="summary" value={{bug.summary}}
-      /></label>
-      <div class="error-summary" *ngIf="fc.summary.errors && isSubmitted">
-        <div *ngIf="fc.summary.errors.required">Please enter a summary.</div>
-        <div *ngIf="fc.summary.errors.minlength">Please enter a summary at least 10 characters long.</div>
-      </div>
-      <label for="link"
-        >URL link<input formControlName="link" type="text" id="link" value={{bug.link}}
-      /></label>
-      <div class="error-link" *ngIf="fc.link.errors && isSubmitted">
-        <div *ngIf="fc.link.errors.required">Please enter a link.</div>
-      </div>
-      <label for="description"
-        >Description
-        <textarea
-          #d
-          placeholder="Description of bug"
-          id="description"
-          cols="30"
-          rows="10"
-          formControlName="description"
-          value={{bug.description}}
-        ></textarea>
+  <div class="container">
+    <h2 *ngIf="bug">Bug ID: {{ bug._id }}</h2>
+    <div>
+      <button [routerLink]="['/search']" [routerLinkActive]="'active'">
+        Ticket lookup
+      </button>
+      <label for="resolved"
+        >Resolved
+        <select name="resolved" id="resolved" value="{{ bug.resolved }}">
+          <option value="true">true</option>
+          <option value="false">false</option>
+        </select>
       </label>
-      <div class="error-description" *ngIf="fc.description.errors && isSubmitted">
-        <div *ngIf="fc.description.errors.required">Please enter a description.</div>
-        <div *ngIf="fc.description.errors.minlength">Please enter a description at least 10 characters long.</div>
-      </div>
-      <div>
-        <button type="submit" (click)="new()">Create & new ticket</button>
-        <button type="submit">Create ticket</button>
-      </div>
-    </fieldset>
-  </form>
+      <label for="displayTags"
+        >Tags
+        <select name="displayTags" id="displayTags" value="Tags">
+          <option *ngFor="let tag of bug.tags">{{ tag }}</option>
+        </select>
+      </label>
+      <form [formGroup]="bugTagForm" (ngSubmit)="addTag()">
+        <fieldset class="flex">
+          <legend class="hidden">Add bug tag</legend>
+          <label for="tag" class="tagLabel"
+            >New Tag: <input formControlName="tag" type="text" id="tag"
+          /></label>
+          <button type="submit">Add Tag</button>
+          <div
+            class="error-tag"
+            *ngIf="tagfc.tag.errors && isSubmitted"
+            class="pad"
+          >
+            <div *ngIf="tagfc.tag.errors.required">Please enter a tag.</div>
+            <div *ngIf="tagfc.tag.errors.minlength">
+              Please enter a tag at least 4 characters long.
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <form [formGroup]="reportBugForm" (ngSubmit)="submit()">
+      <fieldset>
+        <legend class="hidden">Bug {{ bug._id }}</legend>
+        <p>Reported By: {{ bug.reportedBy }}</p>
+        <label for="summary"
+          >Summary<input
+            formControlName="summary"
+            type="text"
+            id="summary"
+            value="{{ bug.summary }}"
+        /></label>
+        <div
+          class="error-summary"
+          *ngIf="fc.summary.errors && isSubmitted"
+          class="pad"
+        >
+          <div *ngIf="fc.summary.errors.required">Please enter a summary.</div>
+          <div *ngIf="fc.summary.errors.minlength">
+            Please enter a summary at least 10 characters long.
+          </div>
+        </div>
+        <label for="link"
+          >URL link<input
+            formControlName="link"
+            type="text"
+            id="link"
+            value="{{ bug.link }}"
+        /></label>
+        <div
+          class="error-link"
+          *ngIf="fc.link.errors && isSubmitted"
+          class="pad"
+        >
+          <div *ngIf="fc.link.errors.required">Please enter a link.</div>
+        </div>
+        <label for="description"
+          >Description
+          <textarea
+            #d
+            placeholder="Description of bug"
+            id="description"
+            cols="30"
+            rows="10"
+            formControlName="description"
+            value="{{ bug.description }}"
+          ></textarea>
+        </label>
+        <div
+          class="error-description"
+          *ngIf="fc.description.errors && isSubmitted"
+          class="pad"
+        >
+          <div *ngIf="fc.description.errors.required">
+            Please enter a description.
+          </div>
+          <div *ngIf="fc.description.errors.minlength">
+            Please enter a description at least 10 characters long.
+          </div>
+        </div>
+        <label for="reproductionFindings"
+          >Reproduction Findings
+          <textarea
+            #d
+            placeholder="Description of bug reproduction findings"
+            id="reproductionFindings"
+            cols="30"
+            rows="10"
+            value="{{ bug.reproductionFindings }}"
+          ></textarea>
+        </label>
+        <label for="developmentFindings"
+          >Development Findings
+          <textarea
+            #d
+            placeholder="Description of bug resolution findings"
+            id="developmentFindings"
+            cols="30"
+            rows="10"
+            value="{{ bug.developmentFindings }}"
+          ></textarea>
+        </label>
+        <div>
+          <button type="submit" (click)="new()">Create & new ticket</button>
+          <button type="submit">Create ticket</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
 </main>

@@ -14,10 +14,16 @@ import { Bug } from 'src/app/shared/models/bug';
 export class BugComponent {
   @Input() isExpanded: boolean = false;
   @Output() toggleSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
+
   reportBugForm!: FormGroup;
+  bugTagForm!: FormGroup;
   isSubmitted = false;
+  isTagSubmitted = false;
   newReport = false;
   returnUrl = '';
+  returnTagUrl = '';
   bug: Bug = {
     _id: '',
     reportedBy: '',
@@ -31,8 +37,6 @@ export class BugComponent {
     tags: [],
   };
 
-  handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
-
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -43,6 +47,7 @@ export class BugComponent {
     let BugObservable: Observable<Bug>;
     activatedRoute.params.subscribe((params) => {
       if (params.id) {
+        this.returnTagUrl = `/bug/${params.id}`;
         BugObservable = this.bugService.getById(params.id);
         BugObservable.subscribe((serverBug) => {
           this.bug = serverBug;
@@ -52,6 +57,10 @@ export class BugComponent {
   }
 
   ngOnInit(): void {
+    this.bugTagForm = this.formBuilder.group({
+      tag: ['', [Validators.required, Validators.minLength(4)]],
+    });
+
     this.reportBugForm = this.formBuilder.group({
       summary: ['', [Validators.required, Validators.minLength(10)]],
       link: ['', Validators.required],
@@ -64,6 +73,10 @@ export class BugComponent {
   // Form controls
   get fc() {
     return this.reportBugForm.controls;
+  }
+
+  get tagfc() {
+    return this.bugTagForm.controls;
   }
 
   new() {
@@ -97,6 +110,23 @@ export class BugComponent {
           this.isSubmitted = false;
           this.reportBugForm.reset();
         }
+      });
+  }
+
+  addTag() {
+    this.isTagSubmitted = true;
+    if (this.bugTagForm.controls.tag.invalid) {
+      return;
+    }
+    this.bugService
+      .addTags(
+        this.bug._id!,
+        this.tagfc.tag.value.toLowerCase()
+      )
+      .subscribe(() => {
+        this.isTagSubmitted = false;
+        this.bugTagForm.reset();
+        this.router.navigateByUrl(this.returnTagUrl);
       });
   }
 }

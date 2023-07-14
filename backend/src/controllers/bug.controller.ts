@@ -286,84 +286,140 @@ export const updateBugReportById = asyncHandler(async (req: any, res: any) => {
           "You do not have access to update bug reports. Please create a new report for additional problems."
         );
     }
-    if (req.oidc.isAuthenticated()) {
-      if (!ObjectId.isValid(req.params.id)) {
-        res.status(400).json("ID must be alphanumeric, 24 characters long.");
+    if (!ObjectId.isValid(req.params.id)) {
+      res.status(400).json("ID must be alphanumeric, 24 characters long.");
+    } else {
+      let failMessage = "";
+      const data = {
+        summary: req.body.summary,
+        link: req.body.link,
+        description: req.body.description,
+        reproductionFindings: req.body.reproductionFindings,
+        developmentFindings: req.body.developmentFindings,
+        message: req.body.message,
+        resolved: req.body.resolved,
+        tags: req.body.tags,
+      };
+      if (typeof data.summary != "string") {
+        failMessage += "To update bug report, enter a summary string.\n";
+      }
+      if (typeof data.link != "string") {
+        failMessage += "To update bug report, enter a link string.\n";
+      }
+      if (typeof data.description != "string") {
+        failMessage += "To update bug report, enter a description string.\n";
+      }
+      if (typeof data.reproductionFindings != "string") {
+        failMessage += "To update bug report, enter a reproductionFindings.\n";
+      }
+      if (typeof data.developmentFindings != "string") {
+        failMessage += "To update bug report, enter a developmentFindings.\n";
+      }
+      if (typeof data.message != "string") {
+        failMessage += "To update bug report, enter a message string.\n";
+      }
+      if (typeof data.resolved != "boolean") {
+        failMessage +=
+          "To update bug report, enter a true/false resolved value.\n";
+      }
+      if (typeof data.tags != "string") {
+        failMessage += "To update bug report, enter a tags strings.\n";
+      }
+      if (failMessage != "") {
+        res.status(400);
+        res.send(failMessage);
       } else {
-        let failMessage = "";
-        const data = {
-          summary: req.body.summary,
-          link: req.body.link,
-          description: req.body.description,
-          reproductionFindings: req.body.reproductionFindings,
-          developmentFindings: req.body.developmentFindings,
-          message: req.body.message,
-          resolved: req.body.resolved,
-          tags: req.body.tags,
-        };
-        if (typeof data.summary != "string") {
-          failMessage += "To update bug report, enter a summary string.\n";
-        }
-        if (typeof data.link != "string") {
-          failMessage += "To update bug report, enter a link string.\n";
-        }
-        if (typeof data.description != "string") {
-          failMessage += "To update bug report, enter a description string.\n";
-        }
-        if (typeof data.reproductionFindings != "string") {
-          failMessage +=
-            "To update bug report, enter a reproductionFindings.\n";
-        }
-        if (typeof data.developmentFindings != "string") {
-          failMessage += "To update bug report, enter a developmentFindings.\n";
-        }
-        if (typeof data.message != "string") {
-          failMessage += "To update bug report, enter a message string.\n";
-        }
-        if (typeof data.resolved != "boolean") {
-          failMessage +=
-            "To update bug report, enter a true/false resolved value.\n";
-        }
-        if (typeof data.tags != "string") {
-          failMessage += "To update bug report, enter a tags strings.\n";
-        }
-        if (failMessage != "") {
-          res.status(400);
-          res.send(failMessage);
+        const userId = new ObjectId(req.params.id);
+        const responce = await getDb()
+          .db("trakResolve")
+          .collection("bugs")
+          .updateOne(
+            { _id: userId },
+            {
+              $set: {
+                summary: data.summary,
+                link: data.link,
+                description: data.description,
+                reproductionFindings: data.reproductionFindings,
+                developmentFindings: data.developmentFindings,
+                message: data.message,
+                resolved: data.resolved,
+                tags: data.tags,
+              },
+            }
+          );
+        if (responce.modifiedCount > 0) {
+          res.status(204).send();
         } else {
-          const userId = new ObjectId(req.params.id);
-          const responce = await getDb()
-            .db("trakResolve")
-            .collection("bugs")
-            .updateOne(
-              { _id: userId },
-              {
-                $set: {
-                  summary: data.summary,
-                  link: data.link,
-                  description: data.description,
-                  reproductionFindings: data.reproductionFindings,
-                  developmentFindings: data.developmentFindings,
-                  message: data.message,
-                  resolved: data.resolved,
-                  tags: data.tags,
-                },
-              }
+          res
+            .status(500)
+            .json(
+              responce.error ||
+                "Something went wrong while updating the bug report. Try again later."
             );
-          if (responce.modifiedCount > 0) {
-            res.status(204).send();
-          } else {
-            res
-              .status(500)
-              .json(
-                responce.error ||
-                  "Something went wrong while updating the bug report. Try again later."
-              );
-          }
         }
       }
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+export const updateBugTagsById = asyncHandler(async (req: any, res: any) => {
+  try {
+    // if (
+    //   claimEquals("user", true) ||
+    //   claimEquals("developer", true) ||
+    //   claimEquals("qa", true) ||
+    //   claimEquals("lead", true) ||
+    //   claimEquals("admin", true)
+    // ) {
+    //   res
+    //     .status(401)
+    //     .json(
+    //       "You do not have access to update bug reports. Please create a new report for additional problems."
+    //     );
+    // }
+    if (!ObjectId.isValid(req.params.id)) {
+      res.status(400).json("ID must be alphanumeric, 24 characters long.");
     } else {
-      res.status(401).json("You must login to update bug reports.");
+      let failMessage = "";
+      const data = {
+        tags: req.body,
+      };
+      console.log(data.tags);
+      if (typeof data.tags != "string") {
+        failMessage += "To update bug report, enter a tags string.\n";
+      }
+      if (failMessage != "") {
+        res.status(400);
+        res.send(failMessage);
+      } else {
+        const userId = new ObjectId(req.params.id);
+        console.log(req.body);
+        console.log(userId);
+        const responce = await getDb()
+          .db("trakResolve")
+          .collection("bugs")
+          .updateOne(
+            { _id: userId },
+            {
+              $push: {
+                tags: data.tags,
+              },
+            }
+          );
+        if (responce.modifiedCount > 0) {
+          res.status(204).send();
+        } else {
+          res
+            .status(500)
+            .json(
+              responce.error ||
+                "Something went wrong while updating the bug report. Try again later."
+            );
+        }
+      }
     }
   } catch (err) {
     res.status(500).json(err);

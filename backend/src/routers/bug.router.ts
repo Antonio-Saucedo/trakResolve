@@ -1,11 +1,12 @@
 import { Router } from "express";
 import {
   getAllBugReports,
+  getBugById,
+  getBugReportBySearchTerm,
   createBugReport,
   updateBugReportById,
+  updateBugTagsById,
   deleteBugReportById,
-  getBugReportBySearchTerm,
-  getBugById,
 } from "../controllers/bug.controller";
 const bugRouter = Router();
 
@@ -23,6 +24,9 @@ bugRouter.post("/bugs", createBugReport);
 
 // PUT/Update bug reports by id
 bugRouter.put("/bugs/:id", updateBugReportById);
+
+// PUT/Update bug report tags by id
+bugRouter.put("/bugs/tags/:id", updateBugTagsById);
 
 // DELETE bug reports by id
 bugRouter.delete("/bugs/:id", deleteBugReportById);

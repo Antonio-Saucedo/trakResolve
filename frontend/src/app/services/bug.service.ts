@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Bug } from '../shared/models/bug';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { BUGS_BY_SEARCH_URL, BUGS_ID_URL, BUGS_URL } from '../shared/constants/urls';
+import {
+  BUGS_BY_SEARCH_URL,
+  BUGS_ID_URL,
+  BUGS_URL,
+  BUG_TAGS_ID_URL,
+} from '../shared/constants/urls';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -31,15 +36,44 @@ export class BugService {
   reportBug(bugReport: Bug) {
     return this.http.post<Bug>(BUGS_URL, bugReport).pipe(
       tap({
-        next: (bug:any) => {
+        next: (bug: any) => {
           console.log(bug.insertedId);
-          this.toastrService.success(`Bug report ID: ${bug.insertedId}.`,'Bug report created successfully.', {
-          positionClass: 'toast-success'});
+          this.toastrService.success(
+            `Bug report ID: ${bug.insertedId}.`,
+            'Bug report created successfully.',
+            {
+              positionClass: 'toast-success',
+            }
+          );
         },
         error: (errorResponse) => {
           this.toastrService.error(
             errorResponse.statusText,
-            'An error occurred.', {positionClass: 'toast-error'}
+            'An error occurred.',
+            { positionClass: 'toast-error' }
+          );
+        },
+      })
+    );
+  }
+
+  addTags(id: string, body: string) {
+    return this.http.put<string>(BUG_TAGS_ID_URL + id, body).pipe(
+      tap({
+        next: () => {
+          this.toastrService.success(
+            'Tag: updated successfully.',
+            `Tags ${id}.`,
+            {
+              positionClass: 'toast-success',
+            }
+          );
+        },
+        error: (errorResponse) => {
+          this.toastrService.error(
+            errorResponse.statusText,
+            'An error occurred.',
+            { positionClass: 'toast-error' }
           );
         },
       })

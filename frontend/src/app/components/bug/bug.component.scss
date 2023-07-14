@@ -8,27 +8,44 @@
     margin-left: 170px;
   }
 
-  fieldset,
+  .container,
   label {
     padding: 10px;
   }
 
-  fieldset {
-    height: 95.5vh;
+  .container {
     text-align: center;
     margin: 20px auto;
     border: 5px solid #660084;
+
+    fieldset {
+      border: none;
+    }
 
     label,
     textarea {
       display: block;
     }
 
-    label {
+    label,
+    p {
       text-align: left;
     }
 
+
+    p,
+    .pad {
+      padding-left: 10px;
+    }
+
     input,
+    textarea,
+    select {
+      padding: 3px;
+    }
+
+    #summary,
+    #link,
     textarea {
       width: 100%;
       margin-top: 5px;
@@ -38,8 +55,14 @@
       resize: vertical;
     }
 
-    div {
+    div,
+    .flex {
       display: flex;
+    }
+
+    div,
+    .flex {
+      align-items: center;
     }
 
     div:last-child {
