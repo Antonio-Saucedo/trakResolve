@@ -41,6 +41,10 @@ const doc = {
           developmentFindings: {
             type: "string",
           },
+          assignedTo: {
+            type: "string",
+            example: "dev_team",
+          },
           message: {
             type: "string",
           },
