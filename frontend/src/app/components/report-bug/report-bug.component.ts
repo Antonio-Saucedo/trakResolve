@@ -62,7 +62,9 @@ export class ReportBugComponent {
         description: this.fc.description.value,
         reproductionFindings: value1,
         developmentFindings: value1,
-        message: "Thank you for your report. We will look over the report and update you with our findings.",
+        assignedTo: 'dev_team',
+        message:
+          'Thank you for your report. We will look over the report and update you with our findings.',
         resolved: value2,
         tags: value3,
       })

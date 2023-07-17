@@ -1,5 +1,5 @@
 import { getDb } from "../configs/database.config";
-import { claimEquals } from "express-openid-connect";
+import { claimEquals, claimIncludes } from "express-openid-connect";
 import asyncHandler from "express-async-handler";
 const ObjectId = require("mongodb").ObjectId;
 
@@ -199,7 +199,7 @@ export const getBugReportBySearchTerm = asyncHandler(
 
 export const getuserMessages = asyncHandler(async (req: any, res: any) => {
   try {
-    if (claimEquals("user", true)) {
+    if (claimIncludes("roles")) {
       let failMessage = "";
       const data = {
         user: req.params.user,
@@ -211,7 +211,6 @@ export const getuserMessages = asyncHandler(async (req: any, res: any) => {
         res.status(400);
         res.send(failMessage);
       } else {
-        console.log(data.user);
         const result = await getDb()
           .db("trakResolve")
           .collection("bugs")
@@ -239,74 +238,75 @@ export const getuserMessages = asyncHandler(async (req: any, res: any) => {
 
 export const createBugReport = asyncHandler(async (req: any, res: any) => {
   try {
-    if (
-      claimEquals("user", true) ||
-      claimEquals("developer", true) ||
-      claimEquals("qa", true) ||
-      claimEquals("lead", true) ||
-      claimEquals("admin", true)
-    ) {
-      let failMessage = "";
-      const data = {
-        reportedBy: req.body.reportedBy,
-        summary: req.body.summary,
-        link: req.body.link,
-        description: req.body.description,
-        reproductionFindings: req.body.reproductionFindings,
-        developmentFindings: req.body.developmentFindings,
-        message: req.body.message,
-        resolved: req.body.resolved,
-        tags: req.body.tags,
-      };
-      if (typeof data.reportedBy != "string") {
-        failMessage += "To create bug report, enter a reportedBy string.\n";
-      }
-      if (typeof data.summary != "string") {
-        failMessage += "To create bug report, enter a summary string.\n";
-      }
-      if (typeof data.link != "string") {
-        failMessage += "To create bug report, enter a link string.\n";
-      }
-      if (typeof data.description != "string") {
-        failMessage += "To create bug report, enter a description string.\n";
-      }
-      if (typeof data.reproductionFindings != "string") {
-        failMessage += "To create bug report, enter a reproductionFindings.\n";
-      }
-      if (typeof data.developmentFindings != "string") {
-        failMessage += "To create bug report, enter a developmentFindings.\n";
-      }
-      if (typeof data.message != "string") {
-        failMessage += "To create bug report, enter a message string.\n";
-      }
-      if (typeof data.resolved != "boolean") {
-        failMessage +=
-          "To create bug report, enter a true/false resolved value.\n";
-      }
-      if (typeof data.tags != "object") {
-        failMessage += "To create bug report, enter a tags list.\n";
-      }
-      if (failMessage != "") {
-        res.status(400);
-        res.send(failMessage);
-      } else {
-        const responce = await getDb()
-          .db("trakResolve")
-          .collection("bugs")
-          .insertOne(data);
-        if (responce.acknowledged) {
-          res.status(201).json(responce);
-        } else {
-          res
-            .status(500)
-            .json(
-              responce.error ||
-                "Something went wrong while creating the bug report. Try again later."
-            );
-        }
-      }
-    } else {
+    if (!claimIncludes("roles")) {
       res.status(401).json("You must login to create bug reports.");
+    }
+    let failMessage = "";
+    const data = {
+      reportedBy: req.body.reportedBy,
+      summary: req.body.summary,
+      link: req.body.link,
+      description: req.body.description,
+      reproductionFindings: req.body.reproductionFindings,
+      developmentFindings: req.body.developmentFindings,
+      assignedTo: req.body.assignedTo,
+      message: req.body.message,
+      resolved: req.body.resolved,
+      tags: req.body.tags,
+    };
+    if (typeof data.reportedBy != "string") {
+      failMessage += "To create bug report, enter a reportedBy string.\n";
+    }
+    if (typeof data.summary != "string") {
+      failMessage += "To create bug report, enter a summary string.\n";
+    }
+    if (typeof data.link != "string") {
+      failMessage += "To create bug report, enter a link string.\n";
+    }
+    if (typeof data.description != "string") {
+      failMessage += "To create bug report, enter a description string.\n";
+    }
+    if (typeof data.reproductionFindings != "string") {
+      failMessage += "To create bug report, enter a reproductionFindings.\n";
+    }
+    if (typeof data.developmentFindings != "string") {
+      failMessage += "To create bug report, enter a developmentFindings.\n";
+    }
+    if (typeof data.assignedTo != "string") {
+      failMessage += "To assign ticket, enter an assignedTo string.\n";
+    }
+    if (typeof data.assignedTo == "string" && data.assignedTo != "dev_team") {
+      failMessage +=
+        "To assign ticket, enter 'dev_team' for assignedTo string.\n";
+    }
+    if (typeof data.message != "string") {
+      failMessage += "To create bug report, enter a message string.\n";
+    }
+    if (typeof data.resolved != "boolean") {
+      failMessage +=
+        "To create bug report, enter a true/false resolved value.\n";
+    }
+    if (typeof data.tags != "object") {
+      failMessage += "To create bug report, enter a tags list.\n";
+    }
+    if (failMessage != "") {
+      res.status(400);
+      res.send(failMessage);
+    } else {
+      const responce = await getDb()
+        .db("trakResolve")
+        .collection("bugs")
+        .insertOne(data);
+      if (responce.acknowledged) {
+        res.status(201).json(responce);
+      } else {
+        res
+          .status(500)
+          .json(
+            responce.error ||
+              "Something went wrong while creating the bug report. Try again later."
+          );
+      }
     }
   } catch (err) {
     res
@@ -319,93 +319,105 @@ export const createBugReport = asyncHandler(async (req: any, res: any) => {
 
 export const updateBugReportById = asyncHandler(async (req: any, res: any) => {
   try {
-    if (claimEquals("user", true)) {
-      if (!ObjectId.isValid(req.params.id)) {
-        res.status(400).json("ID must be alphanumeric, 24 characters long.");
+    if (claimEquals("user", true) || !claimIncludes("roles")) {
+      res.status(401).json("You are not authorized to use this request.");
+    }
+    if (!ObjectId.isValid(req.params.id)) {
+      res.status(400).json("ID must be alphanumeric, 24 characters long.");
+    } else {
+      let failMessage = "";
+      const valid = [
+        "developer_user",
+        "qa_user",
+        "lead_user",
+        "admin_user",
+        "dev_team",
+        "finished_dev",
+      ];
+      const data = {
+        summary: req.body.summary,
+        link: req.body.link,
+        description: req.body.description,
+        reproductionFindings: req.body.reproductionFindings,
+        developmentFindings: req.body.developmentFindings,
+        assignedTo: req.body.assignedTo,
+        message: req.body.message,
+        resolved: req.body.resolved,
+        tags: req.body.tags,
+      };
+      if (typeof data.summary != "string") {
+        failMessage += "To update bug report, enter a summary string.\n";
+      }
+      if (typeof data.link != "string") {
+        failMessage += "To update bug report, enter a link string.\n";
+      }
+      if (typeof data.description != "string") {
+        failMessage += "To update bug report, enter a description string.\n";
+      }
+      if (typeof data.reproductionFindings != "string") {
+        failMessage += "To update bug report, enter a reproductionFindings.\n";
+      }
+      if (typeof data.developmentFindings != "string") {
+        failMessage += "To update bug report, enter a developmentFindings.\n";
+      }
+      if (typeof data.assignedTo != "string") {
+        failMessage += "To assign ticket, enter an assignedTo string.\n";
+      }
+      if (
+        typeof data.assignedTo == "string" &&
+        !valid.includes(data.assignedTo)
+      ) {
+        failMessage += "To assign ticket, enter a valid devTeam role.\n";
+      }
+      if (typeof data.message != "string") {
+        failMessage += "To update bug report, enter a message string.\n";
+      }
+      if (typeof data.resolved != "boolean") {
+        failMessage +=
+          "To update bug report, enter a true/false resolved value.\n";
+      }
+      if (typeof data.tags != "object") {
+        failMessage += "To update bug report, enter a tags list.\n";
+      }
+      if (failMessage != "") {
+        res.status(400);
+        res.send(failMessage);
       } else {
-        let failMessage = "";
-        const data = {
-          summary: req.body.summary,
-          link: req.body.link,
-          description: req.body.description,
-          reproductionFindings: req.body.reproductionFindings,
-          developmentFindings: req.body.developmentFindings,
-          message: req.body.message,
-          resolved: req.body.resolved,
-          tags: req.body.tags,
-        };
-        if (typeof data.summary != "string") {
-          failMessage += "To update bug report, enter a summary string.\n";
-        }
-        if (typeof data.link != "string") {
-          failMessage += "To update bug report, enter a link string.\n";
-        }
-        if (typeof data.description != "string") {
-          failMessage += "To update bug report, enter a description string.\n";
-        }
-        if (typeof data.reproductionFindings != "string") {
-          failMessage +=
-            "To update bug report, enter a reproductionFindings.\n";
-        }
-        if (typeof data.developmentFindings != "string") {
-          failMessage += "To update bug report, enter a developmentFindings.\n";
-        }
-        if (typeof data.message != "string") {
-          failMessage += "To update bug report, enter a message string.\n";
-        }
-        if (typeof data.resolved != "boolean") {
-          failMessage +=
-            "To update bug report, enter a true/false resolved value.\n";
-        }
-        if (typeof data.tags != "object") {
-          failMessage += "To create bug report, enter a tags list.\n";
-        }
-        if (failMessage != "") {
-          res.status(400);
-          res.send(failMessage);
-        } else {
-          const userId = new ObjectId(req.params.id);
-          const responce = await getDb()
-            .db("trakResolve")
-            .collection("bugs")
-            .updateOne(
-              { _id: userId },
-              {
-                $set: {
-                  summary: data.summary,
-                  link: data.link,
-                  description: data.description,
-                  reproductionFindings: data.reproductionFindings,
-                  developmentFindings: data.developmentFindings,
-                  message: data.message,
-                  resolved: data.resolved,
-                  tags: data.tags,
-                },
-              }
-            );
-          if (responce.acknowledged) {
-            if (responce.modifiedCount > 0) {
-              console.log(responce);
-              res.status(204).send();
-            } else {
-              res.status(304).send("No changes were made.");
+        const userId = new ObjectId(req.params.id);
+        const responce = await getDb()
+          .db("trakResolve")
+          .collection("bugs")
+          .updateOne(
+            { _id: userId },
+            {
+              $set: {
+                summary: data.summary,
+                link: data.link,
+                description: data.description,
+                reproductionFindings: data.reproductionFindings,
+                developmentFindings: data.developmentFindings,
+                assignedTo: data.assignedTo,
+                message: data.message,
+                resolved: data.resolved,
+                tags: data.tags,
+              },
             }
+          );
+        if (responce.acknowledged) {
+          if (responce.modifiedCount > 0) {
+            res.status(204).send();
           } else {
-            res
-              .status(500)
-              .json(
-                responce.error ||
-                  "Something went wrong while updating the bug report. Try again later."
-              );
+            res.status(304).send("No changes were made.");
           }
+        } else {
+          res
+            .status(500)
+            .json(
+              responce.error ||
+                "Something went wrong while updating the bug report. Try again later."
+            );
         }
       }
-    } else {
-      res
-        .status(401)
-        .json(
-          "You do not have access to update bug reports. Please create a new report for additional problems."
-        );
     }
   } catch (err) {
     res.status(500).json(err);
@@ -414,17 +426,8 @@ export const updateBugReportById = asyncHandler(async (req: any, res: any) => {
 
 export const updateBugTagsById = asyncHandler(async (req: any, res: any) => {
   try {
-    if (
-      claimEquals("developer", true) ||
-      claimEquals("qa", true) ||
-      claimEquals("lead", true) ||
-      claimEquals("admin", true)
-    ) {
-      res
-        .status(401)
-        .json(
-          "You do not have access to update bug reports. Please create a new report for additional problems."
-        );
+    if (claimEquals("user", true) || !claimIncludes("roles")) {
+      res.status(401).json("You are not authorized to use this request.");
     }
     if (!ObjectId.isValid(req.params.id)) {
       res.status(400).json("ID must be alphanumeric, 24 characters long.");
@@ -433,7 +436,6 @@ export const updateBugTagsById = asyncHandler(async (req: any, res: any) => {
       const data = {
         tags: req.body,
       };
-      console.log(data.tags);
       if (typeof data.tags != "string") {
         failMessage += "To update bug report, enter a tags string.\n";
       }
@@ -442,8 +444,6 @@ export const updateBugTagsById = asyncHandler(async (req: any, res: any) => {
         res.send(failMessage);
       } else {
         const userId = new ObjectId(req.params.id);
-        console.log(req.body);
-        console.log(userId);
         const responce = await getDb()
           .db("trakResolve")
           .collection("bugs")
@@ -475,62 +475,55 @@ export const updateBugTagsById = asyncHandler(async (req: any, res: any) => {
 export const updateBugMessagesById = asyncHandler(
   async (req: any, res: any) => {
     try {
-      if (claimEquals("lead", false) && claimEquals("admin", false)) {
-        res.status(401).json("You must login to update user profile.");
+      if (!claimIncludes("lead", "admin")) {
+        res.status(401).json("You are not authorized to use this request.");
       } else {
-        if (req.oidc.isAuthenticated()) {
-          if (!ObjectId.isValid(req.params.id)) {
-            res
-              .status(400)
-              .json("ID must be alphanumeric, 24 characters long.");
+        if (!ObjectId.isValid(req.params.id)) {
+          res.status(400).json("ID must be alphanumeric, 24 characters long.");
+        } else {
+          let failMessage = "";
+          const data = {
+            bugId: req.body.bugId,
+            message: req.body.message,
+            isOpen: req.body.isOpen,
+          };
+          if (typeof data.bugId != "string") {
+            failMessage += "To update user messages, enter a bugId string.\n";
+          }
+          if (typeof data.message != "string") {
+            failMessage += "To update user messages, enter a message string.\n";
+          }
+          if (typeof data.isOpen != "boolean") {
+            failMessage +=
+              "To update user messages, enter an isOpen boolean.\n";
+          }
+          if (failMessage != "") {
+            res.status(400);
+            res.send(failMessage);
           } else {
-            let failMessage = "";
-            const data = {
-              bugId: req.body.bugId,
-              message: req.body.message,
-              isOpen: req.body.isOpen,
-            };
-            if (typeof data.bugId != "string") {
-              failMessage += "To update user messages, enter a bugId string.\n";
-            }
-            if (typeof data.message != "string") {
-              failMessage +=
-                "To update user messages, enter a message string.\n";
-            }
-            if (typeof data.isOpen != "boolean") {
-              failMessage +=
-                "To update user messages, enter an isOpen boolean.\n";
-            }
-            if (failMessage != "") {
-              res.status(400);
-              res.send(failMessage);
+            const userId = new ObjectId(req.params.id);
+            const responce = await getDb()
+              .db("trakResolve")
+              .collection("users")
+              .updateOne(
+                { _id: userId },
+                {
+                  $set: {
+                    messages: data,
+                  },
+                }
+              );
+            if (responce.modifiedCount > 0) {
+              res.status(204).send();
             } else {
-              const userId = new ObjectId(req.params.id);
-              const responce = await getDb()
-                .db("trakResolve")
-                .collection("users")
-                .updateOne(
-                  { _id: userId },
-                  {
-                    $set: {
-                      messages: data,
-                    },
-                  }
+              res
+                .status(500)
+                .json(
+                  responce.error ||
+                    "Something went wrong while updating the user profile. Try again later."
                 );
-              if (responce.modifiedCount > 0) {
-                res.status(204).send();
-              } else {
-                res
-                  .status(500)
-                  .json(
-                    responce.error ||
-                      "Something went wrong while updating the user profile. Try again later."
-                  );
-              }
             }
           }
-        } else {
-          res.status(401).json("You must login to update user profiles.");
         }
       }
     } catch (err) {
@@ -539,14 +532,78 @@ export const updateBugMessagesById = asyncHandler(
   }
 );
 
+export const updateBugAssignedById = asyncHandler(
+  async (req: any, res: any) => {
+    try {
+      if (claimEquals("user", true) || !claimIncludes("roles")) {
+        res.status(401).json("You are not authorized to use this request.");
+      }
+      if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json("ID must be alphanumeric, 24 characters long.");
+      } else {
+        let failMessage = "";
+        const valid = [
+          "developer_user",
+          "qa_user",
+          "lead_user",
+          "admin_user",
+          "dev_team",
+          "finished_dev",
+        ];
+        const data = {
+          assignedTo: req.body,
+        };
+        if (typeof data.assignedTo != "string") {
+          failMessage += "To assign ticket, enter an assignedTo string.\n";
+        }
+        if (
+          typeof data.assignedTo == "string" &&
+          !valid.includes(data.assignedTo)
+        ) {
+          failMessage += "To assign ticket, enter a valid devTeam role.\n";
+        }
+        if (failMessage != "") {
+          res.status(400);
+          res.send(failMessage);
+        } else {
+          const userId = new ObjectId(req.params.id);
+          const responce = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .updateOne(
+              { _id: userId },
+              {
+                $set: {
+                  assignedTo: data.assignedTo,
+                },
+              }
+            );
+          if (responce.modifiedCount > 0) {
+            res.status(204).send();
+          } else {
+            res
+              .status(500)
+              .json(
+                responce.error ||
+                  "Something went wrong while assigning the ticket. Try again later."
+              );
+          }
+        }
+      }
+    } catch (err) {
+      res
+        .status(500)
+        .json(
+          "Something went wrong while assigning the ticket. Try again later."
+        );
+    }
+  }
+);
+
 export const deleteBugReportById = asyncHandler(async (req: any, res: any) => {
   try {
     if (claimEquals("admin", false)) {
-      res
-        .status(401)
-        .json(
-          "You must be an admin to delete bug reports. Please contact a TrakResolve admin for help."
-        );
+      res.status(401).json("You are not authorized to use this request.");
     }
     if (req.oidc.isAuthenticated()) {
       if (!ObjectId.isValid(req.params.id)) {

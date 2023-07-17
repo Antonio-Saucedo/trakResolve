@@ -25,7 +25,7 @@ export const getAllUsers = asyncHandler(async (req: any, res: any) => {
   }
 });
 
-export const getuserById = asyncHandler(async (req: any, res: any) => {
+export const getUserById = asyncHandler(async (req: any, res: any) => {
   try {
     if (claimEquals("admin", false)) {
       res.status(401).json("You must be an admin to see users.");
@@ -50,6 +50,30 @@ export const getuserById = asyncHandler(async (req: any, res: any) => {
     }
   } catch (err) {
     res.status(500).json("User was not found. Try again later.");
+  }
+});
+
+export const getDevTeam = asyncHandler(async (req: any, res: any) => {
+  try {
+    // if (claimEquals("user", true) || claimEquals("", true)) {
+    //   res.status(401).json("You are not authorized to use this request.");
+    // } else {
+      const result = await getDb()
+        .db("trakResolve")
+        .collection("users")
+        .find({ role: { $regex: "^((?!user).)*$" } })
+        .project({ _id: 0, firstName: 1, lastName: 1 });
+      result.toArray().then((lists: any) => {
+        if (!lists[0]) {
+          res.status(404).json("Development team was not found.");
+        } else {
+          res.setHeader("Content-Type", "application/json");
+          res.status(200).json(lists);
+        }
+      });
+    // }
+  } catch (err) {
+    res.status(500).json("Development team was not found. Try again later.");
   }
 });
 

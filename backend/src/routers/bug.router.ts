@@ -8,6 +8,7 @@ import {
   updateBugReportById,
   updateBugTagsById,
   updateBugMessagesById,
+  updateBugAssignedById,
   deleteBugReportById,
 } from "../controllers/bug.controller";
 const bugRouter = Router();
@@ -33,8 +34,11 @@ bugRouter.put("/bugs/:id", updateBugReportById);
 // PUT/Update bug report tags by id
 bugRouter.put("/bugs/tags/:id", updateBugTagsById);
 
-// PUT/Update users messages by id
+// PUT/Update bug users messages by id
 bugRouter.put("/bugs/messages/:id", updateBugMessagesById);
+
+// PUT/Update bug assignment by id
+bugRouter.put("/bugs/assign/:id", updateBugAssignedById);
 
 // DELETE bug reports by id
 bugRouter.delete("/bugs/:id", deleteBugReportById);

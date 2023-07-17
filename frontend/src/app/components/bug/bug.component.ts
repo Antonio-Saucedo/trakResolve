@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { BugService } from 'src/app/services/bug.service';
 import { UserService } from 'src/app/services/user.service';
 import { Bug } from 'src/app/shared/models/bug';
+import { Names } from 'src/app/shared/interfaces/names';
 
 @Component({
   selector: 'app-bug',
@@ -30,8 +31,12 @@ export class BugComponent {
     reproductionFindings: new FormControl(''),
     developmentFindings: new FormControl(''),
   });
+  assignForm: FormGroup = new FormGroup({
+    assignTo: new FormControl(''),
+  });
   bugTagForm!: FormGroup;
   isSubmitted = false;
+  isAssignSubmitted = false;
   isTagSubmitted = false;
   bug: Bug = {
     _id: '',
@@ -41,10 +46,12 @@ export class BugComponent {
     description: '',
     reproductionFindings: '',
     developmentFindings: '',
+    assignedTo: '',
     message: '',
     resolved: false,
     tags: [],
   };
+  names: Names[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,23 +67,41 @@ export class BugComponent {
         BugObservable.subscribe((serverBug) => {
           this.bug = serverBug;
           this.initializeReportBugForm();
+          this.initializeAssignForm();
         });
       }
+    });
+    let NamesObservable: Observable<Names[]> = this.userService.getDevTeam();
+    NamesObservable.subscribe((serverNames) => {
+      const devTeam: Names = { firstName: 'dev', lastName: 'team' };
+      const finishedDev: Names = { firstName: 'finished', lastName: 'dev' };
+      serverNames.push(devTeam, finishedDev);
+      this.names = serverNames;
     });
   }
 
   initializeReportBugForm() {
-    console.log(this.bug);
     this.reportBugForm.setValue({
       summary: this.bug.summary,
       link: this.bug.link,
       description: this.bug.description,
       reproductionFindings: this.bug.reproductionFindings,
       developmentFindings: this.bug.developmentFindings,
+      assignedTo: this.bug.assignedTo,
+    });
+  }
+
+  initializeAssignForm() {
+    this.assignForm.setValue({
+      assignTo: this.bug.assignedTo,
     });
   }
 
   ngOnInit(): void {
+    this.assignForm = this.formBuilder.group({
+      assignTo: ['', Validators.required],
+    });
+
     this.bugTagForm = this.formBuilder.group({
       tag: ['', [Validators.required, Validators.minLength(4)]],
     });
@@ -87,6 +112,7 @@ export class BugComponent {
       description: ['', [Validators.required, Validators.minLength(10)]],
       reproductionFindings: [''],
       developmentFindings: [''],
+      assignedTo: ['', Validators.required],
     });
   }
 
@@ -95,8 +121,39 @@ export class BugComponent {
     return this.reportBugForm.controls;
   }
 
+  get assignfc() {
+    return this.assignForm.controls;
+  }
+
   get tagfc() {
     return this.bugTagForm.controls;
+  }
+
+  assign() {
+    this.isAssignSubmitted = true;
+    if (this.assignForm.controls.assignTo.invalid) {
+      return;
+    }
+    this.bugService
+      .assign(this.bug._id!, this.assignfc.assignTo.value.toLowerCase())
+      .subscribe(() => {
+        this.isAssignSubmitted = false;
+        this.bug.assignedTo = this.assignfc.assignTo.value.toLowerCase();
+        this.initializeAssignForm();
+      });
+  }
+
+  addTag() {
+    this.isTagSubmitted = true;
+    if (this.bugTagForm.controls.tag.invalid) {
+      return;
+    }
+    this.bugService
+      .addTags(this.bug._id!, this.tagfc.tag.value.toLowerCase())
+      .subscribe(() => {
+        this.isTagSubmitted = false;
+        this.bugTagForm.reset();
+      });
   }
 
   submit() {
@@ -137,25 +194,13 @@ export class BugComponent {
         description: this.fc.description.value,
         reproductionFindings: this.fc.reproductionFindings.value,
         developmentFindings: this.fc.developmentFindings.value,
-        message: this.bug.message,
+        assignedTo: this.fc.assignedTo.value,
+        message: message,
         resolved: this.bug.resolved,
         tags: this.bug.tags,
       })
       .subscribe(() => {
         this.isSubmitted = false;
-      });
-  }
-
-  addTag() {
-    this.isTagSubmitted = true;
-    if (this.bugTagForm.controls.tag.invalid) {
-      return;
-    }
-    this.bugService
-      .addTags(this.bug._id!, this.tagfc.tag.value.toLowerCase())
-      .subscribe(() => {
-        this.isTagSubmitted = false;
-        this.bugTagForm.reset();
       });
   }
 }

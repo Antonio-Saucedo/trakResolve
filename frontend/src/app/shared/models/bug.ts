@@ -6,6 +6,7 @@ export class Bug {
   description!: string;
   reproductionFindings!: string;
   developmentFindings!: string;
+  assignedTo!: string;
   message!: string;
   resolved!: boolean;
   tags!: string[];

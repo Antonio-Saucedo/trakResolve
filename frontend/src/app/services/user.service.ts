@@ -3,9 +3,14 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../shared/models/user';
 import { IUserLogin } from '../shared/interfaces/IUserLogin';
 import { HttpClient } from '@angular/common/http';
-import { USER_LOGIN_URL, USER_REGISTER_URL } from '../shared/constants/urls';
+import {
+  USER_DEVTEAM,
+  USER_LOGIN_URL,
+  USER_REGISTER_URL,
+} from '../shared/constants/urls';
 import { ToastrService } from 'ngx-toastr';
 import { IUserRegister } from '../shared/interfaces/IUserRegister';
+import { Names } from '../shared/interfaces/names';
 
 @Injectable({
   providedIn: 'root',
@@ -103,5 +108,9 @@ export class UserService {
     } else {
       return new User();
     }
+  }
+
+  getDevTeam(): Observable<Names[]> {
+    return this.http.get<Names[]>(USER_DEVTEAM);
   }
 }

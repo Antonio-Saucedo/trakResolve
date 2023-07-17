@@ -8,6 +8,7 @@ import {
   BUGS_URL,
   BUG_TAGS_ID_URL,
   BUG_MESSAGE_URL,
+  BUG_ASSIGN_URL,
 } from '../shared/constants/urls';
 import { ToastrService } from 'ngx-toastr';
 import { Message } from '../shared/models/message';
@@ -119,5 +120,28 @@ export class BugService {
       '_' +
       JSON.parse(localStorage.getItem('User')!).lastName;
     return this.http.get<Message[]>(BUG_MESSAGE_URL + user);
+  }
+
+  assign(id: string, body: string) {
+    return this.http.put<string>(BUG_ASSIGN_URL + id, body).pipe(
+      tap({
+        next: () => {
+          this.toastrService.success(
+            `Bug assigned to ${body} successfully.`,
+            `Bug ${id}.`,
+            {
+              positionClass: 'toast-success',
+            }
+          );
+        },
+        error: (errorResponse) => {
+          this.toastrService.error(
+            errorResponse.statusText,
+            'An error occurred.',
+            { positionClass: 'toast-error' }
+          );
+        },
+      })
+    );
   }
 }

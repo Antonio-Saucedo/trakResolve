@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
   getAllUsers,
-  getuserById,
+  getUserById,
+  getDevTeam,
   createUser,
   loginUser,
   updateUserById,
@@ -10,12 +11,14 @@ import {
 } from "../controllers/user.controller";
 const userRouter = Router();
 
+// Get devTeam
+userRouter.get("/users/devTeam", getDevTeam);
+
 // GET all users
 userRouter.get("/users", getAllUsers);
 
 // GET users by id
-userRouter.get("/users/:id", getuserById);
-
+userRouter.get("/users/:id", getUserById);
 // POST/Create users
 userRouter.post("/users/register", createUser);
 

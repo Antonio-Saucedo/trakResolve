@@ -41,16 +41,37 @@
           </div>
         </fieldset>
       </form>
+      <form [formGroup]="assignForm" (ngSubmit)="assign()">
+        <fieldset class="flex">
+          <legend class="hidden">Assign ticket</legend>
+          <label for="assignTo"
+            >Assign To:
+            <select name="assignTo" formControlName="assignTo" id="assignTo">
+              <option *ngFor="let name of names" [ngValue]='name.firstName + "_" + name.lastName'>
+                {{ name.firstName }}_{{ name.lastName }}
+              </option>
+            </select></label
+          >
+          <button type="submit">Assign Ticket</button>
+          <div
+            class="error-assign"
+            *ngIf="assignfc.assignTo.errors && isAssignSubmitted"
+            class="pad"
+          >
+            <div *ngIf="assignfc.assignTo.errors.required">
+              Please enter a devTeam member.
+            </div>
+          </div>
+        </fieldset>
+      </form>
     </div>
     <form [formGroup]="reportBugForm" (ngSubmit)="submit()">
       <fieldset>
         <legend class="hidden">Bug {{ bug._id }}</legend>
         <p>Reported By: {{ bug.reportedBy }}</p>
+        <p>Assigned To: {{ bug.assignedTo }}</p>
         <label for="summary"
-          >Summary<input
-            formControlName="summary"
-            type="text"
-            id="summary"
+          >Summary<input formControlName="summary" type="text" id="summary"
         /></label>
         <div
           class="error-summary"
@@ -63,10 +84,7 @@
           </div>
         </div>
         <label for="link"
-          >URL link<input
-            formControlName="link"
-            type="text"
-            id="link"
+          >URL link<input formControlName="link" type="text" id="link"
         /></label>
         <div
           class="error-link"
