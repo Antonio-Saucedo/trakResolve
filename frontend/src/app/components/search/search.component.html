@@ -15,6 +15,13 @@
         <option value="description">description</option>
         <option value="resolved">resolved</option>
         <option value="tag">tag</option>
+        <option *ngIf="role != 'user'" value="reproductionFindings">
+          reproduction findings
+        </option>
+        <option *ngIf="role != 'user'" value="developmentFindings">
+          development findings
+        </option>
+        <option *ngIf="role != 'user'" value="assignedTo">assigned to</option>
       </select>
       <label for="searchTerm">Search word: </label>
       <input
@@ -32,25 +39,32 @@
       <li *ngFor="let bug of bugs">
         <a routerLink="/search/_id/{{ bug._id }}">
           <div class="content {{ bug.resolved ? 'true' : 'false' }}">
-            <div class="reportedBy">Reported By:
+            <div class="reportedBy">
+              Reported By:
               {{ bug.reportedBy }}
             </div>
-            <div class="summary">Summary:
+            <div class="summary">
+              Summary:
               {{ bug.summary }}
             </div>
-            <div class="link">Link:
+            <div class="link">
+              Link:
               {{ bug.link }}
             </div>
-            <div class="description">Description:
+            <div class="description">
+              Description:
               {{ bug.description }}
             </div>
-            <div class="reproductionFindings">Reproduction Findings:
+            <div *ngIf="role != 'user'" class="reproductionFindings">
+              Reproduction Findings:
               {{ bug.reproductionFindings }}
             </div>
-            <div class="developmentFindings">Development Findings:
+            <div *ngIf="role != 'user'" class="developmentFindings">
+              Development Findings:
               {{ bug.developmentFindings }}
             </div>
-            <div class="message">Message:
+            <div class="message">
+              Message:
               {{ bug.message }}
             </div>
           </div>

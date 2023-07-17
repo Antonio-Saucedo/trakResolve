@@ -6,7 +6,10 @@
   <div class="container">
     <h2>Resolve Bugs</h2>
     <ul>
-      <li *ngFor="let bug of bugs" class="{{ bug.resolved ? 'true' : 'false' }}">
+      <li
+        *ngFor="let bug of bugs"
+        class="{{ bug.resolved ? 'true' : 'false' }}"
+      >
         <a routerLink="/bug/{{ bug._id }}">
           <p>
             Reported By:

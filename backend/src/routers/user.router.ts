@@ -14,13 +14,15 @@ const userRouter = Router();
 // Get devTeam
 userRouter.get("/users/devTeam", getDevTeam);
 
+// POST/Create users
+userRouter.post("/users/register", createUser);
+
 // GET all users
 userRouter.get("/users", getAllUsers);
 
 // GET users by id
 userRouter.get("/users/:id", getUserById);
-// POST/Create users
-userRouter.post("/users/register", createUser);
+
 
 // POST login user
 userRouter.post("/users/login", loginUser);

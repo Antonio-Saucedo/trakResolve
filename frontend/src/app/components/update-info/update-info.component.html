@@ -10,25 +10,22 @@
       <div>
         <p>Enter the fields that need to be changed.</p>
         <label for="firstName"
-          >First Name <input #fn type="text" id="firstName"
+          >Firstname <input #fn type="text" id="firstName"
         /></label>
         <label for="lastName"
-          >Last Name <input #ln type="text" id="lastName"
-        /></label>
-        <label for="phone"
-          >Phone Number <input #p type="phone" id="phone"
+          >Lastname <input #ln type="text" id="lastName"
         /></label>
         <label for="password"
-          >Password <input #u type="password" id="username"
+          >Password <input #u type="password" id="password"
         /></label>
-          <button
-            class="create"
-            [routerLink]="['/profile']"
-            [routerLinkActive]="'active'"
-          >
-            Update profile
-          </button>
-        </div>
+        <button
+          class="create"
+          [routerLink]="['/profile']"
+          [routerLinkActive]="'active'"
+        >
+          Update profile
+        </button>
+      </div>
     </fieldset>
   </form>
 </main>

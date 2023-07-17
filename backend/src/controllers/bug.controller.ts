@@ -54,6 +54,9 @@ export const getBugReportBySearchTerm = asyncHandler(
         "description",
         "resolved",
         "tag",
+        "reproductionFindings",
+        "developmentFindings",
+        "assignedTo",
       ];
       const searchType = req.params.searchType;
       if (valid.includes(searchType)) {
@@ -175,6 +178,66 @@ export const getBugReportBySearchTerm = asyncHandler(
                 .status(404)
                 .json(
                   `Bug report with tags containing ${searchTerm} was not found.`
+                );
+            } else {
+              res.setHeader("Content-Type", "application/json");
+              res.status(200).json(lists);
+            }
+          });
+        } else if (searchType == "reproductionFindings") {
+          if (claimEquals("user", true) || !claimIncludes("roles")) {
+            res.status(401).json("You are not authorized to use this request.");
+          }
+          const result = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .find({ reproductionFindings: { $regex: searchTerm } });
+          result.toArray().then((lists: any) => {
+            if (!lists[0]) {
+              res
+                .status(404)
+                .json(
+                  `Bug report with reproductionFindings containing ${searchTerm} was not found.`
+                );
+            } else {
+              res.setHeader("Content-Type", "application/json");
+              res.status(200).json(lists);
+            }
+          });
+        } else if (searchType == "developmentFindings") {
+          if (claimEquals("user", true) || !claimIncludes("roles")) {
+            res.status(401).json("You are not authorized to use this request.");
+          }
+          const result = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .find({ developmentFindings: { $regex: searchTerm } });
+          result.toArray().then((lists: any) => {
+            if (!lists[0]) {
+              res
+                .status(404)
+                .json(
+                  `Bug report with developmentFindings containing ${searchTerm} was not found.`
+                );
+            } else {
+              res.setHeader("Content-Type", "application/json");
+              res.status(200).json(lists);
+            }
+          });
+        } else if (searchType == "assignedTo") {
+          if (claimEquals("user", true) || !claimIncludes("roles")) {
+            res.status(401).json("You are not authorized to use this request.");
+          }
+          const result = await getDb()
+            .db("trakResolve")
+            .collection("bugs")
+            .find({ assignedTo: { $regex: searchTerm } });
+          result.toArray().then((lists: any) => {
+            if (!lists[0]) {
+              res
+                .status(404)
+                .json(
+                  `Bug report with assignedTo containing ${searchTerm} was not found.`
                 );
             } else {
               res.setHeader("Content-Type", "application/json");

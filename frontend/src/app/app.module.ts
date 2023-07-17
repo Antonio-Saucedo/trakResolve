@@ -46,7 +46,7 @@ import { BugComponent } from './components/bug/bug.component';
     ToastrModule.forRoot({
       timeOut: 3000,
       disableTimeOut: false,
-      easing: "500",
+      easing: '500',
       newestOnTop: false,
     }),
   ],

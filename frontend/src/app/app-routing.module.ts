@@ -10,18 +10,35 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { BugResolveComponent } from './components/bug-resolve/bug-resolve.component';
 import { BugComponent } from './components/bug/bug.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'search', component: SearchComponent },
-  { path: 'search/:searchType/:searchTerm', component: SearchComponent },
-  { path: 'reportBug', component: ReportBugComponent },
-  { path: 'bugResolve', component: BugResolveComponent },
-  { path: 'bug/:id', component: BugComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'updateInfo', component: UpdateInfoComponent },
-  { path: 'messages', component: MessagesComponent },
+  { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
+  {
+    path: 'search/:searchType/:searchTerm',
+    component: SearchComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'reportBug',
+    component: ReportBugComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'bugResolve',
+    component: BugResolveComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'bug/:id', component: BugComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  {
+    path: 'updateInfo',
+    component: UpdateInfoComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'messages', component: MessagesComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
 ];

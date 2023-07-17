@@ -9,6 +9,7 @@
         class="content"
         [routerLink]="['/profile']"
         [routerLinkActive]="'active'"
+        *ngIf="loggedIn"
       >
         <div class="icon">
           <img
@@ -54,6 +55,7 @@
         class="content"
         [routerLink]="['/search']"
         [routerLinkActive]="'active'"
+        *ngIf="loggedIn"
       >
         <div class="icon">
           <img
@@ -69,6 +71,7 @@
         class="content"
         [routerLink]="['/reportBug']"
         [routerLinkActive]="'active'"
+        *ngIf="loggedIn"
       >
         <div class="icon">
           <img
@@ -84,6 +87,7 @@
         class="content"
         [routerLink]="['/bugResolve']"
         [routerLinkActive]="'active'"
+        *ngIf="loggedIn"
       >
         <div class="icon">
           <img
@@ -99,6 +103,7 @@
         class="content"
         [routerLink]="['/messages']"
         [routerLinkActive]="'active'"
+        *ngIf="loggedIn"
       >
         <div class="icon">
           <img

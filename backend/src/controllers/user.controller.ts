@@ -55,9 +55,9 @@ export const getUserById = asyncHandler(async (req: any, res: any) => {
 
 export const getDevTeam = asyncHandler(async (req: any, res: any) => {
   try {
-    // if (claimEquals("user", true) || claimEquals("", true)) {
-    //   res.status(401).json("You are not authorized to use this request.");
-    // } else {
+    if (claimEquals("user", true) || claimEquals("", true)) {
+      res.status(401).json("You are not authorized to use this request.");
+    } else {
       const result = await getDb()
         .db("trakResolve")
         .collection("users")
@@ -71,7 +71,7 @@ export const getDevTeam = asyncHandler(async (req: any, res: any) => {
           res.status(200).json(lists);
         }
       });
-    // }
+    }
   } catch (err) {
     res.status(500).json("Development team was not found. Try again later.");
   }
@@ -79,81 +79,67 @@ export const getDevTeam = asyncHandler(async (req: any, res: any) => {
 
 export const createUser = asyncHandler(async (req: any, res: any) => {
   try {
-    if (req.oidc.isAuthenticated()) {
-      let failMessage = "";
-      const data = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        phone: req.body.phone,
-        password: req.body.password,
-        role: req.body.role,
-        messages: req.body.messages,
-      };
-      if (typeof data.firstName != "string") {
-        failMessage += "To create user profile, enter a firstName string.\n";
+    let failMessage = "";
+    const data = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      role: req.body.role,
+    };
+    if (typeof data.firstName != "string") {
+      failMessage += "To create user profile, enter a firstName string.\n";
+    }
+    if (typeof data.lastName != "string") {
+      failMessage += "To create user profile, enter a lastName string.\n";
+    }
+    if (typeof data.email != "string") {
+      failMessage += "To create user profile, enter an email string.\n";
+    }
+    if (typeof data.email == "string") {
+      const expression: RegExp =
+        /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
+      if (!expression.test(data.email)) {
+        failMessage += "To create user profile, enter a valid email.";
       }
-      if (typeof data.lastName != "string") {
-        failMessage += "To create user profile, enter a lastName string.\n";
-      }
-      if (typeof data.email != "string") {
-        failMessage += "To create user profile, enter an email string.\n";
-      }
-      if (typeof data.email == "string") {
-        const expression: RegExp =
-          /^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
-        if (!expression.test(data.email)) {
-          failMessage += "To create user profile, enter a valid email.";
-        }
-      }
-      if (
-        typeof data.phone == "number" &&
-        data.phone != 0 &&
-        data.phone.toString().length != 10
-      ) {
-        failMessage +=
-          "To create user profile, enter a phone number 10 digits long or 0.\n";
-      }
-      if (typeof data.password != "string") {
-        failMessage += "To create user profile, enter a password.\n";
-      } else {
-        data.password = await bcrypt.hash(data.password, 10);
-      }
-      if (typeof data.role != "string") {
-        failMessage += "To create user profile, enter a role string.\n";
-      }
-      if (
-        typeof data.role == "string" &&
-        claimEquals("admin", false) &&
-        data.role != "user"
-      ) {
-        failMessage +=
-          "To create user profile, enter 'user' for role string.\n";
-      }
-      if (typeof data.messages != "object") {
-        failMessage += "To update user profile, enter a messages object.\n";
-      }
-      if (failMessage != "") {
-        res.status(400);
-        res.send(failMessage);
-      } else {
-        const responce = await getDb()
+    }
+    if (typeof data.password != "string") {
+      failMessage += "To create user profile, enter a password.\n";
+    } else {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
+    if (typeof data.role != "string") {
+      failMessage += "To create user profile, enter a role string.\n";
+    }
+    if (
+      typeof data.role == "string" &&
+      claimEquals("admin", false) &&
+      data.role != "user"
+    ) {
+      failMessage += "To create user profile, enter 'user' for role string.\n";
+    }
+    if (failMessage != "") {
+      res.status(400);
+      res.send(failMessage);
+    } else {
+      const responce = await getDb()
+        .db("trakResolve")
+        .collection("users")
+        .insertOne(data);
+      if (responce.acknowledged) {
+        const user = await getDb()
           .db("trakResolve")
           .collection("users")
-          .insertOne(data);
-        if (responce.acknowledged) {
-          res.status(201).send(generateTokenReponse(responce));
-        } else {
-          res
-            .status(500)
-            .json(
-              responce.error ||
-                "Something went wrong while creating the user profile. Try again later."
-            );
-        }
+          .findOne({ email: data.email.toLowerCase() });
+        res.status(201).send(generateTokenReponse(user));
+      } else {
+        res
+          .status(500)
+          .json(
+            responce.error ||
+              "Something went wrong while creating the user profile. Try again later."
+          );
       }
-    } else {
-      res.status(401).json("You must login to create user profiles.");
     }
   } catch (err) {
     res
@@ -204,10 +190,8 @@ export const updateUserById = asyncHandler(async (req: any, res: any) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
-            phone: req.body.phone,
             password: req.body.password,
             role: req.body.role,
-            messages: req.body.messages,
           };
           if (typeof data.firstName != "string") {
             failMessage +=
@@ -225,13 +209,6 @@ export const updateUserById = asyncHandler(async (req: any, res: any) => {
             if (!expression.test(data.email)) {
               failMessage += "To update user profile, enter a valid email.";
             }
-          }
-          if (
-            typeof data.phone == "number" &&
-            data.phone.toString().length != 10
-          ) {
-            failMessage +=
-              "To update user profile, enter a phone number 10 digits long.\n";
           }
           if (typeof data.password != "string") {
             failMessage += "To update user profile, enter a password.\n";
@@ -259,9 +236,6 @@ export const updateUserById = asyncHandler(async (req: any, res: any) => {
             failMessage +=
               "To update user profile, enter 'user', 'developer', 'qa', 'lead' or 'admin' for role string.";
           }
-          if (typeof data.messages != "object") {
-            failMessage += "To update user profile, enter a messages object.\n";
-          }
           if (failMessage != "") {
             res.status(400);
             res.send(failMessage);
@@ -277,7 +251,6 @@ export const updateUserById = asyncHandler(async (req: any, res: any) => {
                     firstName: data.firstName,
                     lastName: data.lastName,
                     email: data.email,
-                    phone: data.phone,
                     password: data.password,
                     role: data.role,
                   },
@@ -326,7 +299,6 @@ export const updateUserByIdParameter = asyncHandler(
               "firstName",
               "lastName",
               "email",
-              "phone",
               "password",
               "role",
             ];
@@ -363,14 +335,6 @@ export const updateUserByIdParameter = asyncHandler(
                 if (!expression.test(req.body.parameter)) {
                   failMessage += "To update user profile, enter a valid email.";
                 }
-              }
-              if (
-                parameter == "phone" &&
-                typeof req.body.parameter == "number" &&
-                req.body.parameter.toString().length != 10
-              ) {
-                failMessage +=
-                  "To update user profile, enter a phone number 10 digits long.\n";
               }
               if (
                 parameter == "password" &&
@@ -480,29 +444,6 @@ export const updateUserByIdParameter = asyncHandler(
                       );
                   }
                 }
-                if (parameter == "phone") {
-                  const responce = await getDb()
-                    .db("trakResolve")
-                    .collection("users")
-                    .updateOne(
-                      { _id: userId },
-                      {
-                        $set: {
-                          phone: req.body.parameter,
-                        },
-                      }
-                    );
-                  if (responce.modifiedCount > 0) {
-                    res.status(204).send();
-                  } else {
-                    res
-                      .status(500)
-                      .json(
-                        responce.error ||
-                          "Something went wrong while updating the user profile. Try again later."
-                      );
-                  }
-                }
                 if (parameter == "password") {
                   const responce = await getDb()
                     .db("trakResolve")
@@ -554,7 +495,7 @@ export const updateUserByIdParameter = asyncHandler(
               res
                 .status(400)
                 .json(
-                  "The available fields to update are firstName, lastName, email, phone, password, role."
+                  "The available fields to update are firstName, lastName, email, password, role."
                 );
             }
           }
@@ -610,7 +551,6 @@ const generateTokenReponse = (user: any) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      phone: user.phone,
       password: user.password,
       role: user.role,
     },
@@ -624,8 +564,6 @@ const generateTokenReponse = (user: any) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    phone: user.phone,
-    password: user.password,
     role: user.role,
     token: token,
   };

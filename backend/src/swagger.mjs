@@ -66,33 +66,11 @@ const doc = {
             type: "string",
             format: "email",
           },
-          phone: {
-            type: "number",
-          },
           password: {
             type: "string",
           },
           role: {
             type: "string",
-          },
-          messages: {
-            type: "array",
-            items: {
-              bugId: {
-                type: "string",
-              },
-              message: {
-                type: "string",
-              },
-              isOpen: {
-                type: "boolean",
-              },
-            },
-            example: {
-              bugId: "string",
-              message: "string",
-              isOpen: true,
-            },
           },
         },
       },

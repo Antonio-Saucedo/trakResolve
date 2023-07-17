@@ -28,7 +28,6 @@
 
     ul {
       display: flex;
-      border: 1px solid #660084;
       height: 95%;
       overflow: scroll;
     }
@@ -51,6 +50,7 @@
 
     a {
       width: 100%;
+      color: black;
     }
   }
 

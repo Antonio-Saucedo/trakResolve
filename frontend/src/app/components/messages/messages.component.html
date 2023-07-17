@@ -6,12 +6,15 @@
   <div class="container">
     <h2>Messages</h2>
     <ul>
-      <li *ngFor="let message of messages">
-        <div class="content {{ message.resolved ? 'true' : 'false' }}">
+      <li
+        *ngFor="let message of messages"
+        class="{{ message.resolved ? 'true' : 'false' }}"
+      >
+        <a routerLink="/bug/{{ message._id }}">
           <p>Bug ID: {{ message._id }}</p>
           <p class="message">Message: {{ message.message }}</p>
           <p>Issue Resolved: {{ message.resolved }}</p>
-        </div>
+        </a>
       </li>
     </ul>
   </div>

@@ -8,14 +8,26 @@
     margin-left: 170px;
   }
 
-  form,
-  .container {
+  h2 {
+    text-align: center;
+  }
+
+  form {
     padding: 10px 0;
+  }
+
+  .container {
+    height: 95.5vh;
+    min-height: 400px;
+    padding: 10px;
+    margin: 20px auto;
+    border: 5px solid #660084;
   }
 
   select,
   input {
     margin-right: 10px;
+    padding: 3px;
   }
 
   a {
@@ -36,5 +48,10 @@
 
   .true {
     border: 5px solid #660084;
+  }
+
+  button {
+    margin: 10px;
+    padding: 5px 10px;
   }
 }

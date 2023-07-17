@@ -19,9 +19,17 @@
     margin: 20px auto;
     border: 5px solid #660084;
 
+    h2 {
+      margin-bottom: 10px;
+    }
+
     label,
     button {
       display: block;
+    }
+
+    input {
+      padding: 3px;
     }
 
     .error-password {
@@ -30,15 +38,7 @@
 
     button {
       padding: 5px 10px;
-
-      &.login {
-        margin: auto;
-      }
-
-      &.create {
-        position: absolute;
-        bottom: 35px;
-      }
+      margin: 10px auto;
     }
   }
 }

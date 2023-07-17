@@ -5,7 +5,9 @@
 <main class="main" [ngClass]="{ expanded: isExpanded }">
   <form>
     <fieldset>
-      <h2 *ngIf="user.firstName != ''">Welcome to TrakResolve {{ user.firstName }} {{ user.lastName }}!</h2>
+      <h2 *ngIf="user.firstName != ''">
+        Welcome to TrakResolve {{ user.firstName }} {{ user.lastName }}!
+      </h2>
       <h2 *ngIf="user.firstName == ''">Welcome to TrakResolve!</h2>
       <legend class="hidden">Welcome</legend>
       <div>
@@ -38,6 +40,7 @@
             class="create"
             [routerLink]="['/reportBug']"
             [routerLinkActive]="'active'"
+            *ngIf="user.token"
           >
             Create ticket
           </button>
@@ -45,6 +48,7 @@
             class="lookup"
             [routerLink]="['/search']"
             [routerLinkActive]="'active'"
+            *ngIf="user.token"
           >
             Ticket lookup
           </button>

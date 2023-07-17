@@ -3,12 +3,28 @@
   (toggleSidebar)="isExpanded = !isExpanded"
 ></app-sidebar>
 <main class="main" [ngClass]="{ expanded: isExpanded }">
-  <!-- <form [formGroup]="registerForm" (ngSubmit)="submit()">
+  <form [formGroup]="registerForm" (ngSubmit)="submit()">
     <fieldset>
-      <h2>Create and Account</h2>
-      <legend class="hidden">Create and Account</legend>
+      <h2>Create New Account</h2>
+      <legend class="hidden">Create New Account</legend>
+      <label for="firstName"
+        >Firstname: <input placeholder="firstname" formControlName="firstName" type="text" id="firstName"
+      /></label>
+      <div class="error-firstName" *ngIf="fc.firstName.errors && isSubmitted">
+        <div *ngIf="fc.firstName.errors.required">
+          Please enter your firstname.
+        </div>
+      </div>
+      <label for="lastName"
+        >Lastname: <input placeholder="lastname" formControlName="lastName" type="text" id="lastName"
+      /></label>
+      <div class="error-lastName" *ngIf="fc.lastName.errors && isSubmitted">
+        <div *ngIf="fc.lastName.errors.required">
+          Please enter your lastname.
+        </div>
+      </div>
       <label for="email"
-        >Email: <input formControlName="email" type="email" id="email"
+        >Email: <input placeholder="email@email.com" formControlName="email" type="email" id="email"
       /></label>
       <div class="error-email" *ngIf="fc.email.errors && isSubmitted">
         <div *ngIf="fc.email.errors.required">Please enter your email.</div>
@@ -27,14 +43,7 @@
           Please enter your password.
         </div>
       </div>
-      <button class="login" type="submit">Login</button>
-      <button
-        class="create"
-        [routerLink]="['/register']"
-        [routerLinkActive]="'active'"
-      >
-        Create an account
-      </button>
+      <button type="submit">Create Account</button>
     </fieldset>
-  </form> -->
+  </form>
 </main>

@@ -89,7 +89,10 @@
               "link",
               "description",
               "resolved",
-              "tag"
+              "tag",
+              "reproductionFindings",
+              "developmentFindings",
+              "assignedTo"
             ]
           },
           {
@@ -612,7 +615,6 @@
               "firstName",
               "lastName",
               "email",
-              "phone",
               "password",
               "role"
             ]
@@ -700,35 +702,11 @@
             "type": "string",
             "format": "email"
           },
-          "phone": {
-            "type": "number"
-          },
           "password": {
             "type": "string"
           },
           "role": {
             "type": "string"
-          },
-          "messages": {
-            "type": "array",
-            "items": {
-              "properties": {
-                "bugId": {
-                  "type": "string"
-                },
-                "message": {
-                  "type": "string"
-                },
-                "isOpen": {
-                  "type": "boolean"
-                }
-              }
-            },
-            "example": {
-              "bugId": "string",
-              "message": "string",
-              "isOpen": true
-            }
           }
         }
       }
