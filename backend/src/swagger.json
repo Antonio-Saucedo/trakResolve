@@ -5,7 +5,7 @@
     "description": "Trak Resolve Info API",
     "version": "1.0.0"
   },
-  "host": "localhost:5200",
+  "host": "trakresolve.onrender.com",
   "basePath": "/",
   "tags": [
     {
@@ -17,7 +17,7 @@
       "description": "Get user profile information from Trak Resolve."
     }
   ],
-  "schemes": ["http"],
+  "schemes": ["https"],
   "paths": {
     "/api/v1/bugs": {
       "get": {
@@ -611,13 +611,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "enum": [
-              "firstName",
-              "lastName",
-              "email",
-              "password",
-              "role"
-            ]
+            "enum": ["firstName", "lastName", "email", "password", "role"]
           },
           {
             "name": "body",

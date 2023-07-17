@@ -6,8 +6,8 @@ const doc = {
     description: "Trak Resolve Info API",
     version: "1.0.0",
   },
-  host: "localhost:5200",
-  schemes: ["http"],
+  host: "trakresolve.onrender.com",
+  schemes: ["https"],
   tags: [
     {
       name: "bugs",
