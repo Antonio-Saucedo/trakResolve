@@ -9,7 +9,12 @@
       <legend class="hidden">Login</legend>
       <p>Login below.</p>
       <label for="email"
-        >Email: <input formControlName="email" type="email" id="email"
+        >Email:
+        <input
+          formControlName="email"
+          placeholder="email@email.com"
+          type="email"
+          id="email"
       /></label>
       <div class="error-email" *ngIf="fc.email.errors && isSubmitted">
         <div *ngIf="fc.email.errors.required">Please enter your email.</div>

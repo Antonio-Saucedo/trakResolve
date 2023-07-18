@@ -11,4 +11,4 @@ export const BUG_ASSIGN_URL = BUGS_URL + '/assign/';
 
 export const USER_LOGIN_URL = BASE_URL + '/users/login';
 export const USER_REGISTER_URL = BASE_URL + '/users/register';
-export const USER_DEVTEAM = BASE_URL + '/users/DevTeam';
+export const USER_DEVTEAM = BASE_URL + '/users/devTeam';
