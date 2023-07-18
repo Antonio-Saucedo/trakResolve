@@ -1,6 +1,6 @@
-// const BASE_URL = 'https://trakresolve.onrender.com';
 const API_VERSION = 1;
-const BASE_URL = `http://localhost:5200/api/v${API_VERSION}`;
+const BASE_URL = `https://trakresolve.onrender.com/api/v${API_VERSION}`;
+// const BASE_URL = `http://localhost:5200/api/v${API_VERSION}`;
 
 export const BUGS_URL = BASE_URL + '/bugs';
 export const BUGS_ID_URL = BUGS_URL + '/';
